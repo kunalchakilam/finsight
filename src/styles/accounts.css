@@ -1,0 +1,231 @@
+/* ===========================================
+   Accounts Section
+=========================================== */
+
+.accounts-section{
+    background:#fff;
+
+    border:1px solid #ECECEC;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+/* ===========================================
+   Header
+=========================================== */
+
+.accounts-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:28px;
+}
+
+.accounts-header h2{
+
+    font-size:28px;
+    font-weight:700;
+
+    color:#1F2937;
+
+    margin-bottom:4px;
+}
+
+.accounts-header p{
+
+    color:#6B7280;
+    font-size:15px;
+}
+
+/* ===========================================
+   Add Button
+=========================================== */
+
+.add-account-btn{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    background:#FFC20E;
+
+    color:#222;
+
+    font-weight:600;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    transition:.25s;
+}
+
+.add-account-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(255,194,14,.35);
+}
+
+/* ===========================================
+   Grid
+=========================================== */
+
+.accounts-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+
+    gap:20px;
+}
+
+/* ===========================================
+   Account Card
+=========================================== */
+
+.account-card{
+
+    background:white;
+
+    border:1px solid #ECECEC;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    display:flex;
+    flex-direction:column;
+
+    min-height:180px;
+}
+
+.account-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+}
+
+/* ===========================================
+   Top
+=========================================== */
+
+.account-card-top{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:24px;
+}
+
+.account-icon{
+
+    width:52px;
+    height:52px;
+
+    border-radius:14px;
+
+    background:#FFF6D9;
+
+    color:#C78D00;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:24px;
+}
+
+/* ===========================================
+   Badge
+=========================================== */
+
+.default-badge{
+
+    background:#ECFDF5;
+
+    color:#16A34A;
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:600;
+}
+
+/* ===========================================
+   Info
+=========================================== */
+
+.account-info{
+
+    flex:1;
+}
+
+.account-info h3{
+
+    font-size:20px;
+
+    color:#1F2937;
+
+    margin-bottom:6px;
+}
+
+.account-info p{
+
+    color:#6B7280;
+
+    font-size:14px;
+}
+
+/* ===========================================
+   Balance
+=========================================== */
+
+.account-balance{
+
+    margin-top:24px;
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:#2563EB;
+}
+
+/* ===========================================
+   Responsive
+=========================================== */
+
+@media(max-width:900px){
+
+.accounts-header{
+
+    flex-direction:column;
+    align-items:flex-start;
+
+    gap:16px;
+}
+
+.add-account-btn{
+
+    width:100%;
+    justify-content:center;
+}
+
+}

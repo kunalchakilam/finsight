@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MainLayout from "./components/Layout/MainLayout";
 import DashboardPage from "./pages/DashboardPage";
 import defaultCategories from "./data/defaultCategories";
 
@@ -180,21 +181,21 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <DashboardPage
-        balance={totalBalance}
-        accounts={accounts}
-        categories={categories}
-        transactions={transactions}
-        onAddTransaction={addTransaction}
-        onUpdateTransaction={updateTransaction}
-        onDeleteTransaction={deleteTransaction}
-        onAddCategory={addCategory}
-        onAddAccount={addAccount}
-        onUpdateAccount={updateAccount}
-      />
-    </div>
-  );
+  <MainLayout>
+    <DashboardPage
+      balance={totalBalance}
+      accounts={accounts}
+      categories={categories}
+      transactions={transactions}
+      onAddTransaction={addTransaction}
+      onUpdateTransaction={updateTransaction}
+      onDeleteTransaction={deleteTransaction}
+      onAddCategory={addCategory}
+      onAddAccount={addAccount}
+      onUpdateAccount={updateAccount}
+    />
+  </MainLayout>
+);
 }
 
 export default App;

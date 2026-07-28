@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Plus } from "lucide-react";
+
 import AccountGrid from "./AccountGrid";
 import AddAccountModal from "./AddAccountModal";
 
@@ -7,8 +9,7 @@ function AccountSection({
   onAddAccount,
   onUpdateAccount,
 }) {
-  const [showModal, setShowModal] =
-    useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [selectedAccount, setSelectedAccount] =
     useState(null);
@@ -24,22 +25,40 @@ function AccountSection({
   }
 
   return (
-    <div className="card">
-      <div className="section-header">
-        <h2>Accounts</h2>
-      </div>
+    <>
+      <section className="accounts-section">
 
-      <AccountGrid
-        accounts={accounts}
-        onAdd={handleAdd}
-        onEdit={handleEdit}
-      />
+        <div className="accounts-header">
+
+          <div>
+            <h2>Accounts</h2>
+            <p>Manage all your accounts</p>
+          </div>
+
+          <button
+            className="add-account-btn"
+            onClick={handleAdd}
+          >
+            <Plus size={18} />
+
+            Add Account
+          </button>
+
+        </div>
+
+        <AccountGrid
+          accounts={accounts}
+          onEdit={handleEdit}
+        />
+
+      </section>
 
       {showModal && (
         <AddAccountModal
           account={selectedAccount}
           onClose={() => setShowModal(false)}
           onSave={(account) => {
+
             if (selectedAccount) {
               onUpdateAccount(account);
             } else {
@@ -47,10 +66,11 @@ function AccountSection({
             }
 
             setShowModal(false);
+
           }}
         />
       )}
-    </div>
+    </>
   );
 }
 

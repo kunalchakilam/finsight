@@ -1142,13 +1142,6 @@ margin-bottom:0;
   padding: 10px 14px;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  margin: 24px 0;
-}
-
 .stat-card {
   background: white;
   border-radius: 20px;
@@ -1180,13 +1173,13 @@ margin-bottom:0;
 }
 
 .analytics-section{
-    margin:30px 0;
+    margin:24px 0;
 }
 
 .analytics-card{
     background:white;
-    border-radius:22px;
-    padding:24px;
+    border-radius:18px;
+    padding:18px;
     box-shadow:0 10px 30px rgba(0,0,0,.05);
 }
 
@@ -1254,4 +1247,167 @@ margin-bottom:0;
   background: #ef4444;
   color: white;
   font-weight: 600;
+}
+
+
+/* ===========================
+  New
+=========================== */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:18px;
+}
+
+.welcome-area{
+    grid-column:1 / -1;
+}
+
+
+
+.stats-area{
+    grid-column:span 4;
+}
+
+.accounts-area{
+    grid-column:span 7;
+}
+
+.analytics-area{
+    grid-column:span 5;
+}
+
+.transactions-area{
+    grid-column:1 / -1;
+}
+
+
+
+
+
+
+/* ===========================
+  New UI
+=========================== */
+
+/* =========================
+   Welcome Card
+========================= */
+
+.welcome-card {
+    background: #fff;
+
+    border-radius: 18px;
+
+    padding: 24px 30px;
+
+    display: flex;
+    align-items: center;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,.05);
+
+    border: 1px solid #ECECEC;
+
+    transition: .25s;
+}
+
+.welcome-card:hover {
+    transform: translateY(-2px);
+}
+
+.welcome-card h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #1F2937;
+}
+
+/* =========================
+   Balance Card
+========================= */
+
+.balance-card {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 24px 30px;
+
+    min-height: 240px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,.05);
+
+    border: 1px solid #ECECEC;
+
+    transition: .25s;
+}
+
+.balance-card:hover{
+    transform:translateY(-2px);
+}
+
+.balance-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.balance-title{
+    color:#6B7280;
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.balance-amount{
+    font-size:46px;
+    font-weight:700;
+    color:#FFC20E;
+
+    margin-top:10px;
+}
+
+.balance-area{
+    grid-column: span 8;
+    align-self:start;
+}
+
+.stats-area{
+    grid-column: span 4;
+    align-self:start;
+
+    display:flex;
+    align-items:flex-start;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+
+    height:100%;
+}
+
+.stat-card{
+
+    min-height:110px;
+
+    display:flex;
+
+    align-items:center;
+
+    border-radius:18px;
+
+    transition:.25s;
+}
+
+.accounts-section{
+    min-height:440px;
+}
+
+.analytics-card{
+    min-height:440px;
 }
