@@ -85,44 +85,70 @@
    Navigation
 =========================== */
 
-.sidebar nav{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.sidebar button{
-    display:flex;
-    align-items:center;
-    gap:14px;
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 
-    width:100%;
+    width: 100%;
+    padding: 14px 18px;
 
-    padding:14px 18px;
+    border-radius: 14px;
 
-    border-radius:14px;
+    color: #222;
+    text-decoration: none;
 
-    color:#222;
+    font-size: 15px;
+    font-weight: 600;
 
-    font-size:15px;
-    font-weight:600;
-
-    transition:.25s;
-
-    background:transparent;
+    transition: all 0.25s ease;
 }
 
-.sidebar button:hover{
-    background:rgba(255,255,255,.45);
-    transform:translateX(4px);
+.sidebar nav a:hover {
+    background: rgba(255, 255, 255, 0.45);
+    transform: translateX(4px);
 }
 
-.sidebar button.active{
-    background:white;
-    color:#111827;
-
-    box-shadow:0 8px 18px rgba(0,0,0,.08);
+.sidebar nav a.active {
+    background: white;
+    color: #111827;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
+
+.sidebar nav a.active::before {
+    content: "";
+
+    width: 4px;
+    height: 24px;
+
+    border-radius: 999px;
+
+    background: #6366f1;
+
+    margin-right: 4px;
+}
+
+.sidebar nav a svg {
+    flex-shrink: 0;
+}
+
+.sidebar nav a span {
+    flex: 1;
+}
+
+/* Keyboard accessibility */
+.sidebar nav a:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 3px;
+}
+
+
 
 /* ===========================
    Content

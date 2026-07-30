@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-function MainLayout({ children }) {
+function MainLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -14,7 +16,9 @@ function MainLayout({ children }) {
 
     window.addEventListener("keydown", handleEsc);
 
-    return () => window.removeEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
   }, []);
 
   return (
@@ -37,7 +41,9 @@ function MainLayout({ children }) {
           setSidebarOpen={setSidebarOpen}
         />
 
-        <main className="page-content">{children}</main>
+        <main className="page-content">
+          <Outlet />
+        </main>
       </div>
     </div>
   );

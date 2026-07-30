@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   Wallet,
@@ -8,6 +9,8 @@ import {
 } from "lucide-react";
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
+  const closeSidebar = () => setSidebarOpen(false);
+
   return (
     <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
       <div className="sidebar-top">
@@ -15,37 +18,57 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
         <button
           className="close-btn"
-          onClick={() => setSidebarOpen(false)}
+          onClick={closeSidebar}
         >
           <X size={22} />
         </button>
       </div>
 
       <nav>
-        <button className="active">
+        <NavLink
+          to="/dashboard"
+          onClick={closeSidebar}
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           <LayoutDashboard size={20} />
-          Dashboard
-        </button>
+          <span>Dashboard</span>
+        </NavLink>
 
-        <button>
-          <Wallet size={20} />
-          Accounts
-        </button>
-
-        <button>
+        <NavLink
+          to="/transactions"
+          onClick={closeSidebar}
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           <Receipt size={20} />
-          Transactions
-        </button>
+          <span>Transactions</span>
+        </NavLink>
 
-        <button>
+        <NavLink
+          to="/analytics"
+          onClick={closeSidebar}
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           <PieChart size={20} />
-          Analytics
-        </button>
+          <span>Analytics</span>
+        </NavLink>
 
-        <button>
+        <NavLink
+          to="/budgets"
+          onClick={closeSidebar}
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <Wallet size={20} />
+          <span>Budgets</span>
+        </NavLink>
+
+        <NavLink
+          to="/more"
+          onClick={closeSidebar}
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           <Settings size={20} />
-          More
-        </button>
+          <span>More</span>
+        </NavLink>
       </nav>
     </aside>
   );
