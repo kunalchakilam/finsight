@@ -17,7 +17,7 @@ function StatsGrid({
       0
     );
 
-  const savings =
+  const balance =
     income - expense;
 
   return (
@@ -37,8 +37,8 @@ function StatsGrid({
       />
 
       <StatCard
-        title="Savings"
-        value={`₹${savings.toLocaleString()}`}
+        title="Balance"
+        value={`₹${balance.toLocaleString()}`}
         icon="💰"
         color="#DBEAFE"
       />
