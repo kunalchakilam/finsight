@@ -1,29 +1,29 @@
 import apiRequest from "./apiClient";
 
-export function getCategories() {
-  return apiRequest("/categories");
+export function getTransactions() {
+  return apiRequest("/transactions");
 }
 
-export function getCategoryById(id) {
-  return apiRequest(`/categories/${id}`);
+export function getTransactionById(id) {
+  return apiRequest(`/transactions/${id}`);
 }
 
-export function createCategory(category) {
-  return apiRequest("/categories", {
+export function createTransaction(transaction) {
+  return apiRequest("/transactions", {
     method: "POST",
-    body: JSON.stringify(category),
+    body: JSON.stringify(transaction),
   });
 }
 
-export function updateCategory(id, category) {
-  return apiRequest(`/categories/${id}`, {
+export function updateTransaction(id, transaction) {
+  return apiRequest(`/transactions/${id}`, {
     method: "PUT",
-    body: JSON.stringify(category),
+    body: JSON.stringify(transaction),
   });
 }
 
-export function deleteCategory(id) {
-  return apiRequest(`/categories/${id}`, {
+export function deleteTransaction(id) {
+  return apiRequest(`/transactions/${id}`, {
     method: "DELETE",
   });
 }
