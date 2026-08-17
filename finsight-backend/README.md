@@ -1,29 +1,29 @@
 import apiRequest from "./apiClient";
 
-export function getAccounts() {
-  return apiRequest("/accounts");
+export function getCategories() {
+  return apiRequest("/categories");
 }
 
-export function getAccountById(id) {
-  return apiRequest(`/accounts/${id}`);
+export function getCategoryById(id) {
+  return apiRequest(`/categories/${id}`);
 }
 
-export function createAccount(account) {
-  return apiRequest("/accounts", {
+export function createCategory(category) {
+  return apiRequest("/categories", {
     method: "POST",
-    body: JSON.stringify(account),
+    body: JSON.stringify(category),
   });
 }
 
-export function updateAccount(id, account) {
-  return apiRequest(`/accounts/${id}`, {
+export function updateCategory(id, category) {
+  return apiRequest(`/categories/${id}`, {
     method: "PUT",
-    body: JSON.stringify(account),
+    body: JSON.stringify(category),
   });
 }
 
-export function deleteAccount(id) {
-  return apiRequest(`/accounts/${id}`, {
+export function deleteCategory(id) {
+  return apiRequest(`/categories/${id}`, {
     method: "DELETE",
   });
 }
