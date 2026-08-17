@@ -1,42 +1,29 @@
-const API_BASE_URL = "http://localhost:8080/api";
+import apiRequest from "./apiClient";
 
-async function apiRequest(
-  endpoint,
-  options = {}
-) {
-  const response = await fetch(
-    `${API_BASE_URL}${endpoint}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
-      ...options,
-    }
-  );
-
-  if (!response.ok) {
-    let errorData;
-
-    try {
-      errorData = await response.json();
-    } catch {
-      errorData = {
-        message: "Something went wrong",
-      };
-    }
-
-    throw new Error(
-      errorData.message || "API request failed"
-    );
-  }
-
-  // DELETE returns 204 with no body
-  if (response.status === 204) {
-    return null;
-  }
-
-  return response.json();
+export function getAccounts() {
+  return apiRequest("/accounts");
 }
 
-export default apiRequest;
+export function getAccountById(id) {
+  return apiRequest(`/accounts/${id}`);
+}
+
+export function createAccount(account) {
+  return apiRequest("/accounts", {
+    method: "POST",
+    body: JSON.stringify(account),
+  });
+}
+
+export function updateAccount(id, account) {
+  return apiRequest(`/accounts/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(account),
+  });
+}
+
+export function deleteAccount(id) {
+  return apiRequest(`/accounts/${id}`, {
+    method: "DELETE",
+  });
+}
