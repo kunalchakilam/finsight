@@ -1,17 +1,21 @@
-Add authentication-based route protection to my React + Vite FinSight app.
+Create an AuthContext for my React + Vite FinSight app.
 
-Create a reusable ProtectedRoute component that checks whether a JWT exists in localStorage under "token".
-
-If no token exists:
-- Redirect the user to /login using React Router.
-
-If a token exists:
-- Render the requested page normally.
-
-Update the existing routing structure so Dashboard and all authenticated application pages are wrapped with ProtectedRoute.
-
-Keep Login and Register routes public.
-
-Do not change the existing UI, pages, API layer, or authentication logic.
-Do not add any new libraries.
-Use the existing react-router-dom setup.
+Requirements:
+- Create src/context/AuthContext.jsx.
+- Store the authenticated user and JWT token in state.
+- On initial load, read "token" and "user" from localStorage.
+- Expose:
+  login(authResponse)
+  logout()
+  user
+  token
+  isAuthenticated
+- login() should save token and user to localStorage and update state.
+- logout() should remove both from localStorage, clear state, and navigate to /login.
+- Preserve the existing Login/Register pages and ProtectedRoute.
+- Do not add any libraries.
+- Use React Context API, useState and useEffect.
+- Export AuthProvider and useAuth.
+- Wrap the existing application with AuthProvider without changing unrelated functionality.
+- Do not modify FinanceContext or the existing API modules yet.
+- Return the complete AuthContext.jsx and required App.jsx changes.
