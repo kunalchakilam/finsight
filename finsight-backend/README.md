@@ -1,111 +1,45 @@
-package com.finsight.finsightbackend.service;
+package com.finsight.finsightbackend.controller;
 
 import com.finsight.finsightbackend.dto.request.LoginRequest;
 import com.finsight.finsightbackend.dto.request.RegisterRequest;
 import com.finsight.finsightbackend.dto.response.AuthResponse;
-import com.finsight.finsightbackend.entity.User;
-import com.finsight.finsightbackend.repository.UserRepository;
-import com.finsight.finsightbackend.security.JwtService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import com.finsight.finsightbackend.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Service
-public class AuthService {
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final AuthService authService;
 
-    public AuthService(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            JwtService jwtService
+    public AuthController(
+            AuthService authService
     ) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
+        this.authService = authService;
     }
 
-    public AuthResponse register(
-            RegisterRequest request
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(
+            @Valid @RequestBody RegisterRequest request
     ) {
 
-        if (userRepository.existsByEmail(
-                request.getEmail()
-        )) {
-
-            throw new IllegalArgumentException(
-                    "Email is already registered"
-            );
-        }
-
-        String encodedPassword =
-                passwordEncoder.encode(
-                        request.getPassword()
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        authService.register(request)
                 );
-
-        User user = new User(
-                request.getName(),
-                request.getEmail(),
-                encodedPassword,
-                "USER"
-        );
-
-        User savedUser =
-                userRepository.save(user);
-
-        String token =
-                jwtService.generateToken(
-                        savedUser.getId(),
-                        savedUser.getEmail(),
-                        savedUser.getRole()
-                );
-
-        return new AuthResponse(
-                token,
-                savedUser.getId(),
-                savedUser.getName(),
-                savedUser.getEmail(),
-                savedUser.getRole()
-        );
     }
 
-    public AuthResponse login(
-            LoginRequest request
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(
+            @Valid @RequestBody LoginRequest request
     ) {
 
-        User user =
-                userRepository.findByEmail(
-                        request.getEmail()
-                ).orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "Invalid email or password"
-                        )
-                );
-
-        if (!passwordEncoder.matches(
-                request.getPassword(),
-                user.getPassword()
-        )) {
-
-            throw new IllegalArgumentException(
-                    "Invalid email or password"
-            );
-        }
-
-        String token =
-                jwtService.generateToken(
-                        user.getId(),
-                        user.getEmail(),
-                        user.getRole()
-                );
-
-        return new AuthResponse(
-                token,
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getRole()
+        return ResponseEntity.ok(
+                authService.login(request)
         );
     }
 }
