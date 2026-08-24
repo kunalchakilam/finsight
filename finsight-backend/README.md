@@ -2,64 +2,35 @@ package com.finsight.finsightbackend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class SecurityConfig {
-
-    private final JwtDecoder jwtDecoder;
-
-    public SecurityConfig(
-            JwtDecoder jwtDecoder
-    ) {
-        this.jwtDecoder = jwtDecoder;
-    }
+public class CorsConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http
-    ) throws Exception {
+    public WebMvcConfigurer corsConfigurer() {
 
-        http
-                .csrf(csrf -> csrf.disable())
+        return new WebMvcConfigurer() {
 
-                .cors(cors -> {})
+            @Override
+            public void addCorsMappings(
+                    CorsRegistry registry
+            ) {
 
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
+                registry.addMapping("/**")
+                        .allowedOrigins(
+                                "http://localhost:5173"
                         )
-                )
-
-                .authorizeHttpRequests(auth -> auth
-
-                        // Authentication APIs
-                        .requestMatchers(
-                                "/api/auth/**"
-                        ).permitAll()
-
-                        // Public OPTIONS requests
-                        .requestMatchers(
-                                HttpMethod.OPTIONS,
-                                "/**"
-                        ).permitAll()
-
-                        // Everything else requires JWT
-                        .anyRequest().authenticated()
-                )
-
-                .oauth2ResourceServer(
-                        oauth2 -> oauth2
-                                .jwt(jwt ->
-                                        jwt.decoder(jwtDecoder)
-                                )
-                );
-
-        return http.build();
+                        .allowedMethods(
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "DELETE",
+                                "OPTIONS"
+                        )
+                        .allowedHeaders("*");
+            }
+        };
     }
 }
