@@ -1,45 +1,65 @@
-package com.finsight.finsightbackend.controller;
+package com.finsight.finsightbackend.config;
 
-import com.finsight.finsightbackend.dto.request.LoginRequest;
-import com.finsight.finsightbackend.dto.request.RegisterRequest;
-import com.finsight.finsightbackend.dto.response.AuthResponse;
-import com.finsight.finsightbackend.service.AuthService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-@RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@Configuration
+public class SecurityConfig {
 
-    private final AuthService authService;
+    private final JwtDecoder jwtDecoder;
 
-    public AuthController(
-            AuthService authService
+    public SecurityConfig(
+            JwtDecoder jwtDecoder
     ) {
-        this.authService = authService;
+        this.jwtDecoder = jwtDecoder;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(
-            @Valid @RequestBody RegisterRequest request
-    ) {
+    @Bean
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(
-                        authService.register(request)
+        http
+                .csrf(csrf -> csrf.disable())
+
+                .cors(cors -> {})
+
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+                )
+
+                .authorizeHttpRequests(auth -> auth
+
+                        // Authentication APIs
+                        .requestMatchers(
+                                "/api/auth/**"
+                        ).permitAll()
+
+                        // Public OPTIONS requests
+                        .requestMatchers(
+                                HttpMethod.OPTIONS,
+                                "/**"
+                        ).permitAll()
+
+                        // Everything else requires JWT
+                        .anyRequest().authenticated()
+                )
+
+                .oauth2ResourceServer(
+                        oauth2 -> oauth2
+                                .jwt(jwt ->
+                                        jwt.decoder(jwtDecoder)
+                                )
                 );
-    }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(
-            @Valid @RequestBody LoginRequest request
-    ) {
-
-        return ResponseEntity.ok(
-                authService.login(request)
-        );
+        return http.build();
     }
 }
