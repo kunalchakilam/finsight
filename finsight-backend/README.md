@@ -1,51 +1,51 @@
-Fix the current ISQuest main portal shell to closely match the ISHack reference screenshots I attached. Do NOT build any new dashboard functionality yet.
+Update the current ISQuest shared shell based on the ISHack reference screenshots. This task is ONLY for navigation/header behavior and branding. Do not build feature pages yet.
 
-1. Compare the current ISQuest UI against the ISHack screenshot carefully. The ISHack screenshot is the visual and interaction reference.
+1. REMOVE "Dashboard" completely from the navigation. Do not create or retain a Dashboard page.
 
-2. Fix the LEFT NAVIGATION first:
-   - It should be a narrow vertical sidebar similar to ISHack.
-   - When expanded, show the navigation labels.
-   - When collapsed, it should shrink to an icon-only narrow rail.
-   - Add a small chevron/toggle control on the sidebar edge to collapse/expand it.
-   - The main content area must automatically expand when the sidebar collapses.
-   - Preserve the active navigation state using the ISHack-style amber/yellow highlight.
-
-3. Use appropriate icons for:
-   - Dashboard
+2. Super Admin navigation should be:
    - Quiz Management
-   - Topics
+   - Admin Management
+   - Topics & Question Bank
    - Leaderboards
-   - Settings
-   Keep icons simple and consistent with the ISHack UI.
 
-4. The ISQuest logo/branding in the sidebar should follow the same positioning and scale as the ISHack branding. Do not create an oversized text-based logo.
+3. Admin/User navigation can be prepared for role-based rendering later, but do not implement role logic yet.
 
-5. HEADER:
-   - Match the ISHack header proportions and spacing.
-   - Keep the page title on the left of the content area.
-   - Keep Refresh and user/profile controls on the right.
-   - Do not make the header dark or gamified.
+4. HEADER MUST be redesigned as follows:
+   - Top-left: Synchrony logo followed by "ISQuest".
+   - Top-right: Refresh control with refresh icon + "Refresh", followed by profile icon.
+   - Keep the header clean and visually consistent with the ISHack portal.
+   - Use the existing Synchrony logo asset if available; do not create a replacement.
 
-6. MAIN PORTAL THEME:
-   - Clean white/light background like ISHack.
-   - Dark charcoal text.
-   - Amber/yellow #FFB700 for active states and important accents.
-   - Very subtle gray borders/dividers.
-   - No dark charcoal gaming background.
+5. SIDEBAR:
+   - Expanded by default.
+   - Do NOT use the current separate arrow/chevron toggle.
+   - Clicking the top-left Synchrony logo + ISQuest brand area should collapse/expand the sidebar.
+   - When collapsed, show only navigation icons.
+   - When expanded, show icons + labels.
+   - Main content must automatically use the available space when collapsed.
 
-7. FOOTER:
-   - Keep the existing ISHack footer implementation/style.
-   - Innovation Station logo MUST remain at the bottom-right.
-   - Keep the footer positioning and spacing consistent with ISHack.
+6. Keep the sidebar narrow and visually similar to ISHack, with amber/yellow #FFB700 active navigation styling.
 
-8. BRANDING:
-   - Change the browser document title from "isquest-ui" to "ISQuest".
-   - Update the favicon/browser-tab icon to the Synchrony logo.
-   - Inspect existing public/assets for a Synchrony logo before creating anything new.
-   - Use the existing Synchrony logo asset if available.
+7. PROFILE:
+   - Clicking the top-right profile icon opens a small dropdown menu.
+   - Menu options:
+     1. View My Profile
+     2. Logout
+   - Use a clean white dropdown with subtle shadow/border.
+   - Close the dropdown when clicking outside.
 
-9. Do not change the existing project architecture or install dependencies.
-10. Do not modify quiz pages, APIs, authentication, or other future functionality.
-11. Only fix the shared layout, sidebar behavior, header, footer and browser branding.
-12. Ensure the final result visually resembles an ISQuest-branded sibling of ISHack, including the same clean proportions and sidebar collapse behavior.
-13. Run/build the application after changes and fix any errors introduced by this task.
+8. REFRESH:
+   - Refresh icon + "Refresh" should be clickable.
+   - For now, trigger a simple page/data refresh behavior without implementing APIs.
+
+9. Keep the ISHack-style clean light background, typography, spacing, footer and Innovation Station logo at bottom-right.
+
+10. Do NOT use the dark/gamified #323232 theme for the management portal.
+
+11. Do not install dependencies or rewrite the existing layout architecture. Reuse the copied code in src/components/layout.
+
+12. Update the browser title to "ISQuest" and use the existing Synchrony logo as the favicon if available.
+
+13. Do not implement Quiz Management, Admin Management, Topics, Leaderboards or any backend functionality yet.
+
+14. Ensure the application builds successfully after these changes.
