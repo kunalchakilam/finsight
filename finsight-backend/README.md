@@ -1,59 +1,43 @@
-Build the first real ISQuest feature: Super Admin → Quiz Management.
+Refactor the current Quiz Management feature structure without changing its UI, behavior or functionality.
 
-Follow the existing ISQuest shell and ISHack-inspired visual style. Do not modify the global header, sidebar or footer.
-
-1. Create a dedicated feature folder:
+1. Move the Quiz Management feature out of src/components/quizManagement and place it under:
    src/features/quizManagement/
-   Keep all Quiz Management-specific components, mock data and page logic inside this folder.
-   Follow the existing ISHack project feature-folder conventions where applicable.
 
-2. Create modular files/components rather than putting everything in one file. Keep the structure clean and easy to connect to backend APIs later.
+2. Inside src/features/quizManagement/, keep all Quiz Management-specific JSX/JS files directly in the feature folder:
+   - QuizManagement.jsx
+   - QuizCard.jsx
+   - QuizPageHeader.jsx
+   - QuizSearch.jsx
+   - QuizStats.jsx
+   - quizStats.js
 
-3. Page header:
-   - Title: "Quiz Management"
-   - Description: "Create, manage and monitor Innovation Station quizzes."
-   - Primary amber #FFB700 "Create Quiz" button on the right with plus icon.
+3. Create only one subfolder inside the feature:
+   src/features/quizManagement/data/
 
-4. Add ONLY 3 compact statistics:
-   - Quizzes Hosted
-   - Live Quizzes
-   - Total Participants
-   Use minimal stat blocks, NOT large dashboard cards.
+4. Move mockQuizzes.js into:
+   src/features/quizManagement/data/mockQuizzes.js
 
-5. Add a search bar below the statistics:
-   - Placeholder: "Search quizzes..."
-   - Search icon.
-   - Filter quizzes by name/description.
+5. REMOVE the separate "pages" folder for this feature. QuizManagement.jsx should be the feature's main page/component directly inside quizManagement.
 
-6. Display individual quizzes as responsive cards in a grid. Do NOT make the entire page card-based.
+6. REMOVE the separate "components" folder inside the feature. Do not create another components folder.
 
-7. Each quiz card contains:
-   - Amber quiz icon inside a small square
-   - Quiz name + status on top row
-   - Short description
-   - Public / Private indicator
-   - Person icon + "Owner: [name]"
-   - Participant icon + "[number] participants"
-   - Charcoal "Manage →" button at bottom.
+7. Update all imports, exports and routing references so the application continues working exactly as before.
 
-8. Status styling:
-   - Active = green
-   - Completed = red
+8. Do not move or modify globally reusable components such as the shared header, sidebar or footer. Those should remain under the existing src/components/layout structure.
 
-9. Create exactly 2 dummy quizzes:
-   - September Innovation Challenge — Active, Public, Innovation Station, 526 participants.
-   - AML Awareness Challenge — Completed, Private, Priya Sharma, 84 participants.
+9. Do not change any styling, UI, mock data, functionality, dependencies or application behavior.
 
-10. Calculate statistics from the mock quiz data.
+10. Do not create services, hooks or additional folders yet. We will introduce them only when required for backend integration.
 
-11. Keep mock data in a separate file inside quizManagement so it can later be replaced by an API service.
+11. Keep the final structure as:
+    src/features/quizManagement/
+      QuizManagement.jsx
+      QuizCard.jsx
+      QuizPageHeader.jsx
+      QuizSearch.jsx
+      QuizStats.jsx
+      quizStats.js
+      data/
+        mockQuizzes.js
 
-12. Create Quiz and Manage can be placeholder actions for now.
-
-13. Keep the page clean, spacious and professional like ISHack. Amber is only for primary actions and quiz icons.
-
-14. Do not install dependencies or modify unrelated components.
-
-15. Do not build quiz creation, question bank, topics, leaderboard or backend yet.
-
-16. Ensure the application builds successfully and the feature is accessible through Quiz Management navigation.
+12. Verify that all imports resolve correctly and the application builds successfully after the refactor.
