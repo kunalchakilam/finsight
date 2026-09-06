@@ -1,40 +1,50 @@
-Build the initial frontend shell/layout for a new project called "ISQuest", following the existing ISHack project's structure and coding conventions.
+Build the initial frontend shell for the "ISQuest" project using the existing ISHack layout code already copied into this project.
 
-1. First inspect the existing project structure, especially src/core, src/shared, src/features and existing reusable header/footer/navbar components. Reuse existing components/patterns where appropriate; do not duplicate them unnecessarily.
+1. BEFORE making changes, inspect:
+   - src/components/layout
+   - tailwind.config.js
+   - App.js
+   - any layout-related CSS/components imported by them.
+   Treat the existing ISHack implementation as the reference for structure, spacing and reusable patterns.
 
-2. Create a clean ISQuest application layout with:
-   - Left navigation/sidebar
+2. Do NOT recreate the layout from scratch and do NOT replace the existing layout architecture. Adapt the copied ISHack components for ISQuest.
+
+3. Create the initial ISQuest shell with:
+   - Left sidebar/navigation
    - Top header
    - Main content area
    - Footer
 
-3. Keep the layout role-ready for three roles: Super Admin, Admin and User, but DO NOT build role-specific pages yet.
+4. Replace ISHack branding/text with ISQuest where appropriate.
 
-4. Sidebar should initially show:
-   - ISQuest branding
+5. Sidebar should initially contain:
+   - ISQuest
    - Dashboard
    - Quiz Management
    - Topics
    - Leaderboards
    - Settings
-   Keep navigation items as placeholders for now.
+   Keep these as navigation placeholders for now.
 
-5. Header should be minimal and clean, with page title area, refresh/action area if useful, and user/profile icon. Follow the visual spacing and simplicity of the provided ISHack reference.
+6. Keep the existing ISHack footer structure and styling. The Innovation Station logo at the bottom-right MUST remain present and visually consistent with ISHack.
 
-6. Use the ISQuest theme:
-   - Background: charcoal #323232 with a subtle gradient/transparency
-   - Primary text: neon/off-white
-   - Accent: amber #FFB700
-   - Clean white/charcoal surfaces with subtle borders and shadows.
+7. Adapt the theme to ISQuest:
+   - Charcoal #323232 as the primary background
+   - Subtle charcoal gradient/transparency
+   - Neon/off-white text
+   - Amber #FFB700 for active states and important accents
+   - Clean cards, subtle borders and shadows.
 
-7. IMPORTANT: Reuse the existing ISHack footer implementation/style if available. The footer must remain visually consistent with ISHack, including the Innovation Station logo positioned at the bottom-right corner.
+8. Preserve the existing Tailwind configuration where possible. Only add/modify theme values that are genuinely required for ISQuest. Do not unnecessarily rewrite tailwind.config.js.
 
-8. Make the layout responsive, but prioritize desktop/tablet for the management portal.
+9. Update App.js only as needed to render the new ISQuest layout and a simple Dashboard placeholder.
 
-9. Keep components modular and place them in a structure similar to the existing ISHack project, e.g. shared/components, core/layout and features where appropriate.
+10. Keep the code modular and continue using src/components/layout for shared layout components.
 
-10. For now, render only a simple placeholder Dashboard inside the main content area. Do not implement quiz functionality, APIs, authentication, charts or game UI.
+11. DO NOT implement authentication, roles, APIs, quiz functionality, charts, question management or the gamified quiz UI yet.
 
-11. Do not install unnecessary dependencies or rewrite existing configuration files.
+12. Do not install unnecessary dependencies or change the project configuration unnecessarily.
 
-12. After implementation, ensure the application builds/runs successfully and existing functionality is not broken.
+13. Ensure the project builds/runs successfully after the changes and do not break existing reusable components.
+
+14. The goal of this task is ONLY to establish a clean, working ISQuest base layout that we can build on in the next tasks.
