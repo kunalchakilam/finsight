@@ -1,37 +1,89 @@
-Update the existing Topic backend to support topic descriptions.
+Build the Topics & Question Bank frontend feature using the existing feature structure and styling conventions.
 
-Do not change the Question entity, Quiz Management feature, Excel import, authentication, or any unrelated functionality.
+Create the feature under:
+src/features/topicsQuestionBank/
 
-1. Update the existing Topic entity:
-- Add:
-  description: String
-- Keep it optional for now.
-- Keep all existing Topic fields and relationships unchanged.
+Use this structure:
+- TopicsDashboard.jsx
+- TopicsQuestionBank.jsx
+- TopicCard.jsx
+- TopicQuestions.jsx
+- QuestionCard.jsx
 
-2. Update TopicResponse:
-- Add:
-  description
+1. TopicsDashboard.jsx should be the main page/container for the Topics & Question Bank feature, similar to the existing QuizDashboard structure.
 
-3. Update TopicService mapping so the description is returned in TopicResponse.
+2. TopicsQuestionBank.jsx should contain the main Topics & Question Bank content.
 
-4. Update the database schema/SQL for the topics table according to the project's existing database approach:
-- Add a description column.
-- Do not recreate or drop existing topic/question data.
+3. Match the existing Quiz Management / ISHack visual style exactly:
+- Clean white/light background
+- Same typography
+- Same spacing
+- Same cards
+- Same amber primary buttons
+- Reuse existing shared layout components
+- Do not introduce the dark/gamified quiz UI.
 
-5. If the project uses JPA schema generation rather than SQL migrations, follow the existing configuration instead of introducing a new migration mechanism.
+4. Page header:
+- Title: "Topics & Question Bank"
+- Short description explaining that topics and questions can be managed here.
+- Right side: amber "Upload Questions" button.
 
-6. For existing topics, allow description to be null/empty for now.
-Do not invent descriptions in the backend.
+5. Below the header add a search bar:
+- Placeholder: "Search topics..."
+- Filter topics by topic name and description.
 
-7. Verify:
-GET /api/topics
-GET /api/topics/{id}
-still work and now include:
-- id
-- name
-- description
-- questionCount
+6. Display topics in a responsive card grid.
 
-8. Keep the existing API response fields unchanged apart from adding description.
+Each TopicCard should contain:
+- Topic icon
+- Topic name
+- Description
+- Number of questions
+- "Manage →" button
 
-9. Verify the project compiles successfully.
+7. Use the existing API file:
+src/api.js
+
+Use:
+api.topics.getAll()
+for loading topics.
+
+Do NOT create another API/service file.
+
+8. Do not use mock topic/question data.
+
+9. Add loading and error states consistent with Quiz Management.
+
+10. When "Manage →" is clicked:
+- Show the questions belonging to that topic.
+- Use api.topics.getQuestions(topicId).
+- Keep the user within the Topics & Question Bank feature.
+- Provide a clear "Back to Topics" action.
+
+11. TopicQuestions.jsx should display:
+- Selected topic name
+- Topic description
+- Search questions bar
+- Questions belonging to that topic
+
+12. QuestionCard.jsx should display:
+- Question text
+- Four options
+- Correct answer
+- Contributed by
+- Edit button
+- Delete button
+
+13. Edit and Delete are UI placeholders for now.
+Do not implement PUT/DELETE APIs yet.
+
+14. "Upload Questions" is also a UI placeholder for now.
+Do not implement Excel upload yet.
+
+15. Update routing so TopicsDashboard is opened when the existing "Topics & Question Bank" sidebar navigation item is selected.
+
+16. Preserve all existing Quiz Management functionality and UI.
+
+17. Do not create pages/, services/, hooks/, or additional nested component folders.
+
+18. Verify imports and ensure the application builds successfully.
