@@ -1,106 +1,74 @@
-Build the Excel Question Bank upload UI for the existing Topics & Question Bank feature.
+Implement the final Question Bank import flow for ISQuest.
 
-Use the existing feature structure:
-src/features/topicsQuestionBank/
+The Excel upload + preview flow is already working.
+The uploaded file is currently stored locally because S3/Vault integration is temporarily unavailable.
 
-Do not modify Quiz Management or the existing Topics/Questions API integration.
+Do NOT modify the existing preview behavior.
 
-1. In TopicsDashboard.jsx, make the existing "Upload Questions" button open an upload modal.
+1. Create:
+POST /api/questions/import
 
-2. Create:
-- QuestionUploadModal.jsx
-- QuestionUploadPreview.jsx
+2. The import endpoint must receive the validated preview data produced by the existing preview flow.
+Do not require the Excel file to be uploaded again.
 
-Keep both directly inside:
-src/features/topicsQuestionBank/
+3. Import ONLY valid rows.
+Invalid rows must never be inserted into MySQL.
 
-Do not create another components/pages folder.
+4. For every valid row:
+- Read Category
+- Read Contributed By
+- Read Question
+- Read Option 1
+- Read Option 2
+- Read Option 3
+- Read Option 4
+- Read Correct Answer
 
-3. Upload modal design must match the existing ISHack / Quiz Management UI:
-- Clean white background
-- Same typography, spacing and borders
-- Amber primary button
-- Subtle shadows
-- Professional corporate appearance
-- No dark/gamified styling
+5. Topic handling:
+- Search for an existing Topic by Category name, case-insensitively.
+- If the Topic already exists, reuse it.
+- If it does not exist, create it.
+- Do not create duplicate Topics for different casing/whitespace variations of the same category.
 
-4. Modal content:
-Title: "Upload Questions"
-Description:
-"Upload an Excel file to add questions to the question bank."
+6. Question handling:
+Create a Question associated with the resolved Topic.
+Preserve the actual Correct Answer VALUE from the Excel data.
+Do not convert it to "Option 1", "Option 2", etc.
 
-5. Add a drag-and-drop/file selection area:
-- Excel/file icon
-- "Drop your Excel file here"
-- "or Browse"
-- Accept only .xlsx files
-- Show selected file name and file size after selection.
+7. Use a transaction so that database changes are handled consistently.
+Do not leave partially created question/topic data if the import operation fails unexpectedly.
 
-6. Buttons:
-- Cancel
-- Preview
+8. Return an import summary containing:
+- totalRows
+- importedQuestions
+- skippedRows
+- topicsCreated
+- topicsReused
 
-Preview should remain disabled until a valid .xlsx file is selected.
+9. Also return row-level information for skipped rows if any invalid rows were passed accidentally.
 
-7. Add basic frontend validation:
-- File is required.
-- Only .xlsx files are allowed.
-- Show a clear inline validation message for invalid files.
-- Do not upload the file yet if the backend preview API is unavailable.
+10. Create appropriate request/response DTOs under the existing model package.
+Do not expose JPA entities directly.
 
-8. Add the API method to the existing centralized:
-src/api.js
+11. Keep Excel parsing logic out of the controller.
+Reuse the existing service structure and existing validation logic where possible.
 
-Use this structure:
+12. The frontend currently has an "Import Questions" button in QuestionUploadPreview.
+Do not modify the frontend in this step.
 
-api.questions = {
-    importPreview: (file) => ...
-};
+13. Do not involve Amazon Bedrock.
 
-The method should prepare FormData using:
-formData.append("file", file)
+14. Do not require S3 for the import to work.
+Keep the current local-storage implementation compatible.
 
-and call:
-POST /api/questions/import/preview
+15. Do not modify Quiz Management APIs or existing Topic/Question GET APIs except where necessary to support the import.
 
-Set the request as multipart/form-data appropriately.
-Do not create a separate API/service file.
+16. Ensure imported questions immediately appear through:
+GET /api/topics
+GET /api/topics/{topicId}/questions
 
-9. The modal should call api.questions.importPreview(file) when Preview is clicked.
+17. Verify the application compiles successfully.
 
-10. Handle these states:
-- selecting file
-- uploading/previewing
-- successful preview
-- preview error
-
-11. While previewing, disable buttons and show:
-"Preparing preview..."
-
-12. On successful response, replace the upload form with QuestionUploadPreview.jsx.
-
-13. QuestionUploadPreview should display:
-- File name
-- Total rows
-- Valid questions
-- Questions with errors
-- List of invalid rows with row number and error message
-- List/table of valid questions with question, category and correct answer
-
-14. Add:
-"Back"
-button to return to file selection.
-
-15. Add an "Import Questions" button visually, but keep it disabled for now because the final import API has not been implemented.
-
-16. Do not save anything locally as mock data.
-Do not create mock preview responses.
-
-17. If the API returns an error, show:
-"Unable to prepare preview. Please try again."
-
-18. Refreshing/reloading the page should not affect existing Topics & Question Bank functionality.
-
-19. Keep the implementation simple and reusable for the final import flow later.
-
-20. Verify the application builds successfully.
+18. Test the complete backend flow:
+Excel → Preview → Import → MySQL
+and confirm that only valid questions are inserted.
