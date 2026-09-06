@@ -1,58 +1,59 @@
 Build the first real ISQuest feature: Super Admin → Quiz Management.
 
-Follow the existing ISQuest shell and ISHack-inspired visual style already implemented. Do not modify the global header, sidebar or footer.
+Follow the existing ISQuest shell and ISHack-inspired visual style. Do not modify the global header, sidebar or footer.
 
-1. Page header:
+1. Create a dedicated feature folder:
+   src/features/quizManagement/
+   Keep all Quiz Management-specific components, mock data and page logic inside this folder.
+   Follow the existing ISHack project feature-folder conventions where applicable.
+
+2. Create modular files/components rather than putting everything in one file. Keep the structure clean and easy to connect to backend APIs later.
+
+3. Page header:
    - Title: "Quiz Management"
-   - Short description: "Create, manage and monitor Innovation Station quizzes."
-   - Add a primary amber #FFB700 "Create Quiz" button on the right.
-   - Button should include a suitable plus icon.
+   - Description: "Create, manage and monitor Innovation Station quizzes."
+   - Primary amber #FFB700 "Create Quiz" button on the right with plus icon.
 
-2. Below the header, add a compact statistics section with ONLY 3 statistics:
+4. Add ONLY 3 compact statistics:
    - Quizzes Hosted
    - Live Quizzes
    - Total Participants
-   Use clean minimal stat blocks, NOT large dashboard cards.
+   Use minimal stat blocks, NOT large dashboard cards.
 
-3. Below the statistics, add a search bar:
+5. Add a search bar below the statistics:
    - Placeholder: "Search quizzes..."
-   - Include a search icon.
-   - It should filter the displayed quizzes by quiz name/description.
+   - Search icon.
+   - Filter quizzes by name/description.
 
-4. Below the search bar, display quizzes as individual cards in a responsive grid.
-   Do NOT convert the entire page into cards.
+6. Display individual quizzes as responsive cards in a grid. Do NOT make the entire page card-based.
 
-5. Each quiz card must contain:
-   - Amber/yellow quiz icon inside a small square
-   - Quiz name
-   - Status on the same top row
+7. Each quiz card contains:
+   - Amber quiz icon inside a small square
+   - Quiz name + status on top row
    - Short description
    - Public / Private indicator
    - Person icon + "Owner: [name]"
-   - Person/participant icon + "12 participants"
-   - "Manage →" button at the bottom
-   - Manage button should use charcoal/dark gray styling.
+   - Participant icon + "[number] participants"
+   - Charcoal "Manage →" button at bottom.
 
-6. Status styling:
-   - Active = green text/dot
-   - Completed = red text/dot
+8. Status styling:
+   - Active = green
+   - Completed = red
 
-7. Create exactly TWO realistic dummy quizzes:
-   - "September Innovation Challenge" — Active, Public, owner "Innovation Station", 526 participants.
-   - "AML Awareness Challenge" — Completed, Private, owner "Priya Sharma", 84 participants.
+9. Create exactly 2 dummy quizzes:
+   - September Innovation Challenge — Active, Public, Innovation Station, 526 participants.
+   - AML Awareness Challenge — Completed, Private, Priya Sharma, 84 participants.
 
-8. Calculate the three statistics from the dummy quiz data rather than hardcoding unrelated values.
+10. Calculate statistics from the mock quiz data.
 
-9. Keep the design clean, spacious and professional like ISHack. Use amber only for primary actions and quiz icons.
+11. Keep mock data in a separate file inside quizManagement so it can later be replaced by an API service.
 
-10. Add subtle hover interaction to quiz cards and buttons, but avoid excessive animations.
+12. Create Quiz and Manage can be placeholder actions for now.
 
-11. "Create Quiz" and "Manage" can be placeholder actions for now; do not implement quiz creation or backend APIs yet.
+13. Keep the page clean, spacious and professional like ISHack. Amber is only for primary actions and quiz icons.
 
-12. Keep quiz data in a clean local/mock data structure so it can be replaced with an API later.
+14. Do not install dependencies or modify unrelated components.
 
-13. Do not install dependencies or modify unrelated components.
+15. Do not build quiz creation, question bank, topics, leaderboard or backend yet.
 
-14. Make the page responsive and ensure it builds successfully.
-
-15. Only implement this Quiz Management page and its local search behavior. Do not build the quiz builder, question bank, topics, leaderboard or backend yet.
+16. Ensure the application builds successfully and the feature is accessible through Quiz Management navigation.
