@@ -1,50 +1,56 @@
-Build the initial frontend shell for the "ISQuest" project using the existing ISHack layout code already copied into this project.
+Update the current ISQuest frontend layout to closely match the existing ISHack portal shown in the attached reference screenshot.
 
-1. BEFORE making changes, inspect:
+IMPORTANT: The current ISQuest implementation is NOT what we want. It currently has a dark/charcoal gaming-style layout. Remove that approach for the main portal.
+
+1. Treat the attached ISHack screenshot as the PRIMARY visual reference for the ISQuest management portal.
+
+2. Inspect the copied ISHack implementation already present in:
    - src/components/layout
    - tailwind.config.js
    - App.js
-   - any layout-related CSS/components imported by them.
-   Treat the existing ISHack implementation as the reference for structure, spacing and reusable patterns.
+   Reuse/adapt the existing ISHack layout patterns instead of creating a new layout from scratch.
 
-2. Do NOT recreate the layout from scratch and do NOT replace the existing layout architecture. Adapt the copied ISHack components for ISQuest.
+3. ISQuest main portal should have the same overall structure as ISHack:
+   - Clean white/light background
+   - Narrow left navigation
+   - Yellow/amber active navigation state
+   - Clean header
+   - Large content area
+   - Minimal borders/dividers
+   - Simple professional typography
+   - Footer fixed/positioned consistently with ISHack
 
-3. Create the initial ISQuest shell with:
-   - Left sidebar/navigation
-   - Top header
-   - Main content area
-   - Footer
+4. Sidebar should follow the ISHack style: compact, clean and minimal rather than a large dark sidebar.
 
-4. Replace ISHack branding/text with ISQuest where appropriate.
+5. Use ISQuest branding in place of ISHack, but preserve the same visual language and proportions.
 
-5. Sidebar should initially contain:
-   - ISQuest
+6. Main navigation for now:
    - Dashboard
    - Quiz Management
    - Topics
    - Leaderboards
    - Settings
-   Keep these as navigation placeholders for now.
 
-6. Keep the existing ISHack footer structure and styling. The Innovation Station logo at the bottom-right MUST remain present and visually consistent with ISHack.
+7. Keep the header similar to ISHack with:
+   - Page title
+   - Small supporting text where appropriate
+   - Refresh/action area
+   - User/profile icon on the right
 
-7. Adapt the theme to ISQuest:
-   - Charcoal #323232 as the primary background
-   - Subtle charcoal gradient/transparency
-   - Neon/off-white text
-   - Amber #FFB700 for active states and important accents
-   - Clean cards, subtle borders and shadows.
+8. Keep the ISHack footer structure and styling. The Innovation Station logo MUST remain at the bottom-right exactly as an important branding element.
 
-8. Preserve the existing Tailwind configuration where possible. Only add/modify theme values that are genuinely required for ISQuest. Do not unnecessarily rewrite tailwind.config.js.
+9. Use the ISHack palette for the management portal:
+   - White/light background
+   - Dark charcoal text
+   - Yellow/amber #FFB700 for active states and key accents
+   - Subtle gray borders and muted secondary text
 
-9. Update App.js only as needed to render the new ISQuest layout and a simple Dashboard placeholder.
+10. IMPORTANT: Do NOT use the charcoal #323232 gaming theme for this management portal. That theme will be used later only for the separate live quiz experience.
 
-10. Keep the code modular and continue using src/components/layout for shared layout components.
+11. Keep the current React/Tailwind architecture and existing dependencies. Do not rewrite configuration unnecessarily.
 
-11. DO NOT implement authentication, roles, APIs, quiz functionality, charts, question management or the gamified quiz UI yet.
+12. For now, only create/fix the shared ISQuest shell and a simple Dashboard placeholder. Do not build quiz functionality or dashboard statistics yet.
 
-12. Do not install unnecessary dependencies or change the project configuration unnecessarily.
+13. Make sure the result visually feels like an ISHack sibling application, not a completely new product.
 
-13. Ensure the project builds/runs successfully after the changes and do not break existing reusable components.
-
-14. The goal of this task is ONLY to establish a clean, working ISQuest base layout that we can build on in the next tasks.
+14. Do not modify unrelated components or functionality. Ensure the project still builds successfully.
