@@ -1,23 +1,44 @@
-11. Remove the frontend mock quiz data completely.
+Configure CORS for the ISQuest Spring Boot backend so the React frontend can call the API.
 
-- Delete:
-  src/features/quizManagement/data/mockQuizzes.js
+1. Use the existing:
+com.syf.isquest.api.config
 
-- Remove all imports/references to mockQuizzes.js.
-- QuizManagement.jsx must use only the backend API for quiz data.
-- Do not keep fallback mock data in the component.
-- Do not hardcode quiz objects anywhere in the Quiz Management feature.
+2. Create:
+CorsConfig.java
 
-12. The API response should now be the single source of truth for:
-- Quiz cards
-- Quiz status
-- Visibility
-- Owner
-- Participant count
-- Quiz Management statistics
+3. Configure a global CORS policy for the application.
 
-13. If the API fails, show the existing/simple error state:
-"Unable to load quizzes."
-Do not silently fall back to mock data.
+4. For local development, allow the React frontend origins:
+- http://localhost:5173
 
-14. After removing the mock data, verify there are no remaining imports or references to mockQuizzes.js anywhere in the Quiz Management feature.
+5. Allow these HTTP methods:
+- GET
+- POST
+- PUT
+- DELETE
+- PATCH
+- OPTIONS
+
+6. Allow request headers:
+- Content-Type
+- Authorization
+- Accept
+
+7. Allow credentials if required by the existing authentication setup.
+
+8. Apply the CORS configuration globally to all API endpoints:
+"/**"
+
+9. Do not add @CrossOrigin annotations to individual controllers.
+
+10. Do not modify the existing Security, AWS, Vault, database, or other configuration unless required for CORS to work.
+
+11. If Spring Security is configured, make sure CORS is enabled in the SecurityFilterChain so the global CORS configuration is actually respected.
+
+12. Do not disable CSRF or security just to make CORS work.
+
+13. Verify that:
+GET /api/quizzes
+can be called from the React frontend without a browser CORS error.
+
+14. Keep the configuration clean and ready to later replace the local origins with the deployed ISQuest frontend URL.
