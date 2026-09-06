@@ -1,51 +1,58 @@
-Update the current ISQuest shared shell based on the ISHack reference screenshots. This task is ONLY for navigation/header behavior and branding. Do not build feature pages yet.
+Build the first real ISQuest feature: Super Admin → Quiz Management.
 
-1. REMOVE "Dashboard" completely from the navigation. Do not create or retain a Dashboard page.
+Follow the existing ISQuest shell and ISHack-inspired visual style already implemented. Do not modify the global header, sidebar or footer.
 
-2. Super Admin navigation should be:
-   - Quiz Management
-   - Admin Management
-   - Topics & Question Bank
-   - Leaderboards
+1. Page header:
+   - Title: "Quiz Management"
+   - Short description: "Create, manage and monitor Innovation Station quizzes."
+   - Add a primary amber #FFB700 "Create Quiz" button on the right.
+   - Button should include a suitable plus icon.
 
-3. Admin/User navigation can be prepared for role-based rendering later, but do not implement role logic yet.
+2. Below the header, add a compact statistics section with ONLY 3 statistics:
+   - Quizzes Hosted
+   - Live Quizzes
+   - Total Participants
+   Use clean minimal stat blocks, NOT large dashboard cards.
 
-4. HEADER MUST be redesigned as follows:
-   - Top-left: Synchrony logo followed by "ISQuest".
-   - Top-right: Refresh control with refresh icon + "Refresh", followed by profile icon.
-   - Keep the header clean and visually consistent with the ISHack portal.
-   - Use the existing Synchrony logo asset if available; do not create a replacement.
+3. Below the statistics, add a search bar:
+   - Placeholder: "Search quizzes..."
+   - Include a search icon.
+   - It should filter the displayed quizzes by quiz name/description.
 
-5. SIDEBAR:
-   - Expanded by default.
-   - Do NOT use the current separate arrow/chevron toggle.
-   - Clicking the top-left Synchrony logo + ISQuest brand area should collapse/expand the sidebar.
-   - When collapsed, show only navigation icons.
-   - When expanded, show icons + labels.
-   - Main content must automatically use the available space when collapsed.
+4. Below the search bar, display quizzes as individual cards in a responsive grid.
+   Do NOT convert the entire page into cards.
 
-6. Keep the sidebar narrow and visually similar to ISHack, with amber/yellow #FFB700 active navigation styling.
+5. Each quiz card must contain:
+   - Amber/yellow quiz icon inside a small square
+   - Quiz name
+   - Status on the same top row
+   - Short description
+   - Public / Private indicator
+   - Person icon + "Owner: [name]"
+   - Person/participant icon + "12 participants"
+   - "Manage →" button at the bottom
+   - Manage button should use charcoal/dark gray styling.
 
-7. PROFILE:
-   - Clicking the top-right profile icon opens a small dropdown menu.
-   - Menu options:
-     1. View My Profile
-     2. Logout
-   - Use a clean white dropdown with subtle shadow/border.
-   - Close the dropdown when clicking outside.
+6. Status styling:
+   - Active = green text/dot
+   - Completed = red text/dot
 
-8. REFRESH:
-   - Refresh icon + "Refresh" should be clickable.
-   - For now, trigger a simple page/data refresh behavior without implementing APIs.
+7. Create exactly TWO realistic dummy quizzes:
+   - "September Innovation Challenge" — Active, Public, owner "Innovation Station", 526 participants.
+   - "AML Awareness Challenge" — Completed, Private, owner "Priya Sharma", 84 participants.
 
-9. Keep the ISHack-style clean light background, typography, spacing, footer and Innovation Station logo at bottom-right.
+8. Calculate the three statistics from the dummy quiz data rather than hardcoding unrelated values.
 
-10. Do NOT use the dark/gamified #323232 theme for the management portal.
+9. Keep the design clean, spacious and professional like ISHack. Use amber only for primary actions and quiz icons.
 
-11. Do not install dependencies or rewrite the existing layout architecture. Reuse the copied code in src/components/layout.
+10. Add subtle hover interaction to quiz cards and buttons, but avoid excessive animations.
 
-12. Update the browser title to "ISQuest" and use the existing Synchrony logo as the favicon if available.
+11. "Create Quiz" and "Manage" can be placeholder actions for now; do not implement quiz creation or backend APIs yet.
 
-13. Do not implement Quiz Management, Admin Management, Topics, Leaderboards or any backend functionality yet.
+12. Keep quiz data in a clean local/mock data structure so it can be replaced with an API later.
 
-14. Ensure the application builds successfully after these changes.
+13. Do not install dependencies or modify unrelated components.
+
+14. Make the page responsive and ensure it builds successfully.
+
+15. Only implement this Quiz Management page and its local search behavior. Do not build the quiz builder, question bank, topics, leaderboard or backend yet.
