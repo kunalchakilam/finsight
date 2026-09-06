@@ -1,71 +1,104 @@
-Build the backend for the ISQuest Quiz Management feature using the existing Spring Boot project structure.
+Connect the existing React Quiz Management frontend to the Quiz Management backend API.
 
-Project package:
-com.syf.isquest.api
+Use ONLY ONE centralized API file:
+src/api.js
 
-Use the existing folders:
-entity, repository, service, controller, model, exception, config, util
+Do not create separate API/service files such as quizService.js, api/quizApi.js, services/, etc.
 
-For this step, implement ONLY Quiz Management backend. Do not build quiz participation, questions, topics, leaderboard, live quiz, authentication, or other features yet.
+Create src/api.js with this structure and keep it extensible:
 
-1. Create Quiz entity:
-- Table name: quizzes
-- id: Long, primary key, auto-generated
-- name: String, required
-- description: String
-- status: enum with ACTIVE and COMPLETED
-- visibility: enum with PUBLIC and PRIVATE
-- ownerName: String
-- participantCount: Integer
-- createdAt: LocalDateTime
-- updatedAt: LocalDateTime
-- Use Lombok where appropriate.
-- Use JPA annotations and validation constraints appropriately.
+import axios from "axios";
 
-2. Create enums:
-- QuizStatus
-- QuizVisibility
-Place them in the entity package unless the existing project convention suggests otherwise.
+// config
+const BASE_URL = window._env_?.ISQUEST_API_URL;
 
-3. Create QuizRepository:
-- Extend JpaRepository<Quiz, Long>
-- Add a search method to find quizzes by name or description containing the search text, case-insensitive.
+// create axios instance with defaults
 
-4. Create QuizResponse in model package:
-- Return only the fields required by the current Quiz Management frontend.
-- Do not expose unnecessary database/entity details.
+// auth interceptor
 
-5. Create QuizService:
-- getAllQuizzes()
-- searchQuizzes(String search)
-- Return QuizResponse objects.
-- Keep entity-to-response mapping inside the service for now.
-- Do not create a separate mapper class yet.
+// response interceptor
 
-6. Create QuizController:
-Base path: /api/quizzes
-- GET /api/quizzes → return all quizzes
-- GET /api/quizzes?search=term → search by name or description
-- Return appropriate HTTP response types.
+// API methods
 
-7. Database:
-- Use the existing application.yml datasource configuration.
-- Do not create a new database configuration.
-- Create the required SQL schema/seed script under the existing resources/sql folder only if that matches the project's current database initialization approach.
-- Add exactly these two initial quizzes:
-  1. September Innovation Challenge
-     ACTIVE, PUBLIC, owner "Innovation Station", 526 participants
-  2. AML Awareness Challenge
-     COMPLETED, PRIVATE, owner "Priya Sharma", 84 participants
+const api = {
+    // quizzes
+};
 
-8. Do not hardcode quiz data inside the controller or service.
+export default api;
 
-9. Follow the project's existing coding conventions and package structure.
+Implementation requirements:
 
-10. Do not modify the existing AWS, Vault, Security, Bedrock, S3, or unrelated configuration.
+1. Import axios correctly.
 
-11. Add proper exception handling only if required by the existing project pattern.
+2. Use:
+const BASE_URL = window._env_?.ISQUEST_API_URL;
 
-12. Verify the project compiles successfully and the GET /api/quizzes endpoint works with the seeded data.
+3. Create one axios instance using BASE_URL with sensible defaults:
+- baseURL
+- JSON content type
+- Accept JSON
 
-Do not implement POST/create quiz yet. The Create Quiz button is still a frontend placeholder.
+4. Add an auth request interceptor.
+For now, do NOT implement a real authentication flow.
+If a token already exists in localStorage/sessionStorage, attach it as:
+Authorization: Bearer <token>
+Otherwise leave the request unchanged.
+
+5. Add a response interceptor:
+- Return response.data for successful responses.
+- Handle API errors consistently.
+- Do not show UI alerts from the interceptor.
+- Preserve/rethrow the original error so components can handle it.
+
+6. Add only the Quiz Management API methods currently required:
+const api = {
+    quizzes: {
+        getAll: () => ...,
+        search: (search) => ...
+    }
+};
+
+Both should call:
+GET /api/quizzes
+
+For search, send the search term as the query parameter:
+?search=<term>
+
+7. Update QuizManagement.jsx to use api.quizzes instead of mockQuizzes.js.
+
+8. On initial page load:
+- Call api.quizzes.getAll()
+- Store the returned quizzes in component state.
+- Show the existing quiz cards using API data.
+
+9. Search:
+- Use the existing search bar.
+- Call api.quizzes.search(searchTerm) when appropriate.
+- Keep the existing UI and search behavior.
+- Do not move search logic into api.js beyond making the API request.
+
+10. Remove the dependency on mockQuizzes.js from QuizManagement.jsx.
+Do not delete mockQuizzes.js yet; keep it as a fallback/reference until the API integration is verified.
+
+11. Preserve the existing UI exactly:
+- Header/sidebar/footer
+- Quiz Management title/description
+- Stats
+- Search bar
+- Quiz cards
+- Status/visibility/owner/participant information
+- Manage and Create Quiz buttons
+
+12. Calculate the displayed Quiz Management statistics from the API response exactly as the current frontend calculates them from mock data. Do not hardcode statistics.
+
+13. Add simple loading and error states without redesigning the page:
+- Loading: show a small "Loading quizzes..." message.
+- Error: show a small "Unable to load quizzes." message.
+Do not use a new notification library.
+
+14. Do not implement POST/create quiz yet.
+The Create Quiz button remains a placeholder.
+
+15. Do not add authentication, WebSocket, Redis, or other backend integrations yet.
+
+16. Verify imports, API calls, and the application build successfully.
