@@ -1,89 +1,99 @@
-Build the Topics & Question Bank frontend feature using the existing feature structure and styling conventions.
+Build the Excel Question Bank upload and preview backend for ISQuest.
 
-Create the feature under:
-src/features/topicsQuestionBank/
+Use the existing project structure and existing AWS configuration.
 
-Use this structure:
-- TopicsDashboard.jsx
-- TopicsQuestionBank.jsx
-- TopicCard.jsx
-- TopicQuestions.jsx
-- QuestionCard.jsx
+IMPORTANT:
+- An existing S3Config.java already exists under config/.
+- An existing VaultAwsCredentialProvider.java already exists under config/.
+- Reuse these existing classes.
+- Do NOT create another S3 configuration, AWS credential provider, or duplicate AWS client configuration.
+- Bedrock is NOT required for this feature.
 
-1. TopicsDashboard.jsx should be the main page/container for the Topics & Question Bank feature, similar to the existing QuizDashboard structure.
+Excel format:
+Category, Contributed By, Question, Option 1, Option 2, Option 3, Option 4, Correct Answer
 
-2. TopicsQuestionBank.jsx should contain the main Topics & Question Bank content.
+1. Create an upload metadata entity:
+QuestionBankUpload
+- id: Long, generated
+- fileName: String
+- s3Key: String
+- uploadedBy: String
+- uploadedAt: LocalDateTime
+- totalRows: Integer
+- validRows: Integer
+- errorRows: Integer
 
-3. Match the existing Quiz Management / ISHack visual style exactly:
-- Clean white/light background
-- Same typography
-- Same spacing
-- Same cards
-- Same amber primary buttons
-- Reuse existing shared layout components
-- Do not introduce the dark/gamified quiz UI.
+2. Create the corresponding repository.
 
-4. Page header:
-- Title: "Topics & Question Bank"
-- Short description explaining that topics and questions can be managed here.
-- Right side: amber "Upload Questions" button.
+3. Create an API endpoint:
+POST /api/questions/import/preview
 
-5. Below the header add a search bar:
-- Placeholder: "Search topics..."
-- Filter topics by topic name and description.
+Accept a multipart Excel (.xlsx) file.
 
-6. Display topics in a responsive card grid.
+4. Store the original uploaded Excel file in the existing Amazon S3 configuration.
+Use a unique S3 key such as:
+question-bank/{year}/{unique-upload-id}/{original-file-name}
 
-Each TopicCard should contain:
-- Topic icon
-- Topic name
-- Description
-- Number of questions
-- "Manage →" button
+5. Use Apache POI to read the workbook.
+Do not use AI/Bedrock for parsing or validation.
 
-7. Use the existing API file:
-src/api.js
+6. Validate the header row.
+The expected columns are exactly:
+Category
+Contributed By
+Question
+Option 1
+Option 2
+Option 3
+Option 4
+Correct Answer
 
-Use:
-api.topics.getAll()
-for loading topics.
+7. Validate every data row:
+- Category is required.
+- Contributed By is required.
+- Question is required.
+- All four options are required.
+- Correct Answer is required.
+- Correct Answer must match the VALUE of one of Option 1-4.
+- Do not expect values such as "Option 1" or "Option 4".
+- Ignore leading/trailing whitespace when comparing the correct answer with option values.
+- Do not change the original correct-answer value returned in the preview.
 
-Do NOT create another API/service file.
+8. Detect duplicate option values within the same question and report them as validation errors.
 
-8. Do not use mock topic/question data.
+9. Do not save Topic or Question records to MySQL during preview.
 
-9. Add loading and error states consistent with Quiz Management.
+10. Return a preview response containing:
+- upload metadata
+- original file name
+- total rows
+- valid rows
+- error rows
+- row-level validation results
 
-10. When "Manage →" is clicked:
-- Show the questions belonging to that topic.
-- Use api.topics.getQuestions(topicId).
-- Keep the user within the Topics & Question Bank feature.
-- Provide a clear "Back to Topics" action.
+For each invalid row return:
+- Excel row number
+- validation error message(s)
 
-11. TopicQuestions.jsx should display:
-- Selected topic name
-- Topic description
-- Search questions bar
-- Questions belonging to that topic
+For valid rows return the parsed question data needed for the confirmation/import step.
 
-12. QuestionCard.jsx should display:
-- Question text
-- Four options
-- Correct answer
-- Contributed by
-- Edit button
-- Delete button
+11. Keep the preview response as DTO/model classes.
+Do not expose JPA entities directly.
 
-13. Edit and Delete are UI placeholders for now.
-Do not implement PUT/DELETE APIs yet.
+12. Create appropriate service classes under the existing service package.
+Keep Excel parsing/validation separate from the controller logic.
 
-14. "Upload Questions" is also a UI placeholder for now.
-Do not implement Excel upload yet.
+13. Use the existing exception-handling approach where applicable.
 
-15. Update routing so TopicsDashboard is opened when the existing "Topics & Question Bank" sidebar navigation item is selected.
+14. Do not implement the final import/confirmation endpoint yet.
+This step is ONLY upload + S3 storage + parsing + validation + preview.
 
-16. Preserve all existing Quiz Management functionality and UI.
+15. Do not modify existing Quiz Management or Topic/Question GET APIs.
 
-17. Do not create pages/, services/, hooks/, or additional nested component folders.
+16. Do not modify existing S3Config.java or VaultAwsCredentialProvider.java unless absolutely required for compilation/integration.
 
-18. Verify imports and ensure the application builds successfully.
+17. Add appropriate multipart file-size/type validation for .xlsx uploads.
+
+18. Verify the application compiles and:
+POST /api/questions/import/preview
+successfully accepts an .xlsx file, stores the original file in S3, parses it, and returns the validation preview without inserting questions into MySQL.
