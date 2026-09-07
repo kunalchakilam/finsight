@@ -1,82 +1,45 @@
-Build the backend foundation for the first step of the ISQuest Create Quiz flow.
+Implement Step 2 of the Create Quiz flow: Questions.
 
-Use the existing Spring Boot package:
-com.syf.isquest.api
+Existing structure:
+src/features/quizManagement/
+- CreateQuiz.jsx
+- QuizBasicDetails.jsx
+- QuizDashboard.jsx
 
-Use the existing folders:
-entity, repository, service, controller, model, exception
+Create a new QuizQuestions.jsx in the same feature folder and integrate it into CreateQuiz.jsx.
 
-Do NOT implement question selection, custom questions, quiz sessions, scoring, leaderboards, or authentication yet.
-
-1. Update the existing Quiz entity to support the Create Quiz requirements.
-
-Quiz fields should include:
-- id: Long
-- name: String, required
-- description: String
-- status: existing ACTIVE/COMPLETED status
-- visibility: existing PUBLIC/PRIVATE visibility
-- ownerName: String
-- participantCount: Integer
-- createdAt: LocalDateTime
-- updatedAt: LocalDateTime
-
-Do not unnecessarily remove or rename existing fields.
-
-2. Create/update a request DTO:
-CreateQuizRequest
-
-For this first step it should contain:
-- name
-- description
-- visibility
-
-3. Create/update the response DTO:
-QuizResponse
-
-Ensure the existing Quiz Management GET APIs continue returning their existing fields.
-
-4. Add:
-POST /api/quizzes
-
-The endpoint should accept CreateQuizRequest.
-
-5. Validate:
-- name is required
-- name should have a reasonable maximum length
-- description should have a reasonable maximum length
-- visibility is required
-
-6. Do not allow the client to set:
-- id
-- participantCount
-- createdAt
-- updatedAt
-
-7. New quizzes should initially use the appropriate existing default status.
-Do not allow the frontend to arbitrarily set quiz status.
-
-8. Owner handling:
-Keep the existing ownerName approach for now because authentication/user identity is not being implemented in this slice.
-
-9. Add the corresponding service method:
-createQuiz(CreateQuizRequest request)
-
-10. Save the Quiz using the existing QuizRepository.
-
-11. Return the created quiz using QuizResponse.
-
-12. Use appropriate HTTP status:
-201 CREATED for successful creation.
-
-13. Keep existing GET/search Quiz Management APIs working.
-
-14. Do not implement QuestionBank relationships yet.
-Do not create QuizTopicConfiguration yet.
-
-15. Do not implement quiz creation from the frontend yet.
-The frontend Step 1 should continue to hold the data until the final Create Quiz action is implemented.
-
-16. Follow existing exception handling and validation conventions.
-
-17. Verify the project compiles successfully and POST /api/quizzes works independently in Postman.
+Requirements:
+1. Keep the existing 3-step indicator:
+   Basic Details → Questions → Review
+2. Step 2 title: "Add Questions"
+   Description: "Choose how questions will be added to your quiz."
+3. Show two selection cards/buttons:
+   - "Select from Question Bank" — enabled
+   - "Create Custom Questions" — disabled with "Coming Soon"
+4. When Question Bank is selected, show configuration:
+   - Topic dropdown/select
+   - Question Pool Size
+   - Questions Asked Per Participant
+   - Selection Mode:
+     • Same Questions for Everyone
+     • Random Per Participant
+   - Time per Question: fixed at 20 seconds, display as read-only
+5. Allow multiple topic configurations using "Add Topic".
+6. Each topic row/card should show:
+   Topic, Pool Size, Questions Per Participant, Remove.
+7. Display derived "Total Questions Per Participant".
+8. Validate:
+   - topic required
+   - pool size > 0
+   - questions per participant > 0
+   - questions per participant <= pool size
+   - at least one topic configured
+9. Marking scheme section:
+   - Standard: 600 base points + time bonus
+   - Double Points: 1200 base points + time bonus
+   Let admin choose the scheme; don't expose the exact time-bonus formula.
+10. Back returns to Step 1 without losing entered data.
+11. Next stores the configuration in CreateQuiz state and moves to Step 3.
+12. Do NOT call the create-quiz API yet.
+13. Use existing API/layout patterns and ISHack-style light UI.
+14. Do not implement custom questions, AI, advanced settings, or leaderboard settings.
