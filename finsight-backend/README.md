@@ -1,14 +1,27 @@
-Check the existing Quiz backend after the Create Quiz implementation.
+Fix the Quiz details API used by the Manage Quiz page.
 
-Verify whether GET /api/quizzes/{id} exists and returns:
-- quiz basic details
-- participant count/status/visibility/owner
-- saved topic/question configuration
-- point type information
+Inspect the current Quiz entity, Quiz configuration entities, repositories, service and QuizResponse.
 
-If it already exists and provides this data, make no changes.
+GET /api/quizzes/{id} must return the ACTUAL persisted data for that quiz:
+- id
+- name
+- description
+- status
+- visibility
+- ownerName
+- participantCount
+- createdAt
+- configured topics
+- pool type and pool size
+- questions per participant
+- selection mode
+- configured question IDs
+- Standard/Double point type for configured questions
+- time per question
 
-If missing, implement only the minimal GET /api/quizzes/{id} endpoint using the existing Quiz service, repository, entities and QuizResponse patterns.
+Do not calculate or hardcode quiz configuration values in the frontend.
 
-Return 404 when the quiz does not exist.
-Do not modify quiz creation or other existing APIs.
+If the existing QuizResponse is insufficient, create/update the DTO and service mapping only.
+Reuse existing entities and repositories.
+Return 404 when quiz ID does not exist.
+Do not change quiz creation behavior.
