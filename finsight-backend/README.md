@@ -1,87 +1,82 @@
-Build the first step of the ISQuest Create Quiz flow.
+Build the backend foundation for the first step of the ISQuest Create Quiz flow.
 
-Use the existing feature structure:
-src/features/quizManagement/
+Use the existing Spring Boot package:
+com.syf.isquest.api
 
-Keep the existing QuizDashboard/QuizManagement structure and styling conventions.
+Use the existing folders:
+entity, repository, service, controller, model, exception
 
-1. Create:
-- CreateQuiz.jsx
-- QuizBasicDetails.jsx
+Do NOT implement question selection, custom questions, quiz sessions, scoring, leaderboards, or authentication yet.
 
-Keep them directly inside:
-src/features/quizManagement/
+1. Update the existing Quiz entity to support the Create Quiz requirements.
 
-2. The existing "Create Quiz" button in Quiz Management should navigate to/open Create Quiz.
+Quiz fields should include:
+- id: Long
+- name: String, required
+- description: String
+- status: existing ACTIVE/COMPLETED status
+- visibility: existing PUBLIC/PRIVATE visibility
+- ownerName: String
+- participantCount: Integer
+- createdAt: LocalDateTime
+- updatedAt: LocalDateTime
 
-3. Create Quiz should use a clean multi-step layout.
-For now implement ONLY Step 1.
+Do not unnecessarily remove or rename existing fields.
 
-Step indicator:
-1. Basic Details
-2. Questions
-3. Review
+2. Create/update a request DTO:
+CreateQuizRequest
 
-4. Step 1 title:
-"Create Quiz"
+For this first step it should contain:
+- name
+- description
+- visibility
 
-Description:
-"Set up the basic details for your quiz."
+3. Create/update the response DTO:
+QuizResponse
 
-5. Form fields:
+Ensure the existing Quiz Management GET APIs continue returning their existing fields.
 
-Quiz Name
-- Required
-- Placeholder: "Enter quiz name"
+4. Add:
+POST /api/quizzes
 
-Description
-- Optional
-- Multiline textarea
-- Placeholder: "Enter a short description"
+The endpoint should accept CreateQuizRequest.
 
-Visibility
-- Required
-- Public
-- Private
+5. Validate:
+- name is required
+- name should have a reasonable maximum length
+- description should have a reasonable maximum length
+- visibility is required
 
-6. Explain visibility briefly:
-Public:
-"Anyone can join this quiz."
+6. Do not allow the client to set:
+- id
+- participantCount
+- createdAt
+- updatedAt
 
-Private:
-"Only participants with the quiz key or QR code can join."
+7. New quizzes should initially use the appropriate existing default status.
+Do not allow the frontend to arbitrarily set quiz status.
 
-7. Buttons:
-- Cancel
-- Next
+8. Owner handling:
+Keep the existing ownerName approach for now because authentication/user identity is not being implemented in this slice.
 
-8. Validate Quiz Name before allowing Next.
-Show a clear inline validation message.
+9. Add the corresponding service method:
+createQuiz(CreateQuizRequest request)
 
-9. When Next is clicked:
-- Store the form values in CreateQuiz state.
-- Navigate to Step 2.
-- Do NOT call the backend yet.
+10. Save the Quiz using the existing QuizRepository.
 
-10. Add a Back/Cancel action that returns to Quiz Management.
+11. Return the created quiz using QuizResponse.
 
-11. Keep the styling consistent with the existing ISHack/Quiz Management portal:
-- white/light background
-- amber primary actions
-- dark charcoal text
-- subtle borders
-- clean spacing
-- no gamified/dark styling
+12. Use appropriate HTTP status:
+201 CREATED for successful creation.
 
-12. Do not create mock quiz data.
+13. Keep existing GET/search Quiz Management APIs working.
 
-13. Do not implement custom question creation yet.
+14. Do not implement QuestionBank relationships yet.
+Do not create QuizTopicConfiguration yet.
 
-14. Do not implement Question Bank configuration yet.
-Step 2 can initially be a placeholder that will be implemented next.
+15. Do not implement quiz creation from the frontend yet.
+The frontend Step 1 should continue to hold the data until the final Create Quiz action is implemented.
 
-15. Do not modify existing Quiz Management functionality.
+16. Follow existing exception handling and validation conventions.
 
-16. Reuse existing shared layout components.
-
-17. Verify routing/imports and ensure the frontend builds successfully.
+17. Verify the project compiles successfully and POST /api/quizzes works independently in Postman.
