@@ -1,27 +1,30 @@
-Fix the Quiz details API used by the Manage Quiz page.
+Update QuizManage.jsx to display the actual Quiz details API response.
 
-Inspect the current Quiz entity, Quiz configuration entities, repositories, service and QuizResponse.
+Requirements:
+1. Remove all hardcoded/mock quiz configuration values.
+2. Map every displayed value directly from the API response.
+3. Show:
+   - Quiz name, description
+   - Status, visibility
+   - Owner, participant count, created date
+   - Topic configurations
+   - Pool type and pool count
+   - Questions per participant
+   - Selection mode
+   - Standard/Double question counts
+   - Time per question
 
-GET /api/quizzes/{id} must return the ACTUAL persisted data for that quiz:
-- id
-- name
-- description
-- status
-- visibility
-- ownerName
-- participantCount
-- createdAt
-- configured topics
-- pool type and pool size
-- questions per participant
-- selection mode
-- configured question IDs
-- Standard/Double point type for configured questions
-- time per question
-
-Do not calculate or hardcode quiz configuration values in the frontend.
-
-If the existing QuizResponse is insufficient, create/update the DTO and service mapping only.
-Reuse existing entities and repositories.
-Return 404 when quiz ID does not exist.
-Do not change quiz creation behavior.
+4. Add an Actions section:
+   - Host Quiz
+   - Edit Quiz
+   - Delete Quiz
+5. Host Quiz should currently be a placeholder action only.
+6. Edit Quiz should navigate to the existing Create Quiz flow with the quiz ID
+   so we can load and edit the existing configuration.
+7. Delete Quiz should show a confirmation dialog before calling the delete API.
+8. Add the required GET/PUT/DELETE quiz methods to src/api.js if missing.
+9. After successful deletion, navigate back to Quiz Management and refresh the list.
+10. Handle loading, API errors and 404 cleanly.
+11. Keep the UI consistent with the existing ISHack-style design.
+12. Do not implement Share yet, but keep the Actions area structured so a
+    future "Share Quiz" action can be added for Public quizzes.
