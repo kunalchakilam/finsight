@@ -1,17 +1,36 @@
-Update backend support for Create Quiz Step 2.
+Implement only the backend support required for Create Quiz Step 2.
 
-Use existing Topic and Question entities/repositories.
+First inspect the existing Topic and Question implementation:
+- Topic.java
+- Question.java
+- TopicRepository.java
+- QuestionRepository.java
+- existing TopicController/QuestionController
+- TopicService/QuestionService
+- TopicResponse.java
+- QuestionResponse.java
 
-Ensure:
-- GET /api/topics returns id, name, description, questionCount.
-- GET /api/topics/{topicId}/questions returns existing QuestionResponse data.
+Do NOT create new Topic/Question entities, repositories, controllers, or duplicate APIs.
 
-No quiz configuration should be persisted yet.
+Requirements:
+1. Verify GET /api/topics already returns:
+   id, name, description, questionCount.
+   If already implemented, leave it unchanged.
 
-Add only minimal DTO/service changes needed for the frontend to:
-- view available questions by topic
-- manually select questions
-- identify question IDs for point configuration
+2. Verify GET /api/topics/{topicId}/questions returns all questions for that topic with:
+   id, topicId, topicName, contributedBy, question,
+   option1, option2, option3, option4, correctAnswer.
 
-Do not create new duplicate Topic/Question entities or APIs.
-Keep existing endpoints working.
+3. Ensure questions are returned with their database IDs so the frontend can manually select questions.
+
+4. If any existing service/DTO/repository code is missing for the above,
+   make only the minimal changes required.
+
+5. GET /api/topics/{topicId}/questions should return 404 if the topic does not exist.
+
+6. Do NOT create or persist any Quiz Step 2 configuration yet.
+   Do NOT modify Quiz creation logic.
+
+7. Keep all existing Topic and Question APIs working.
+
+After implementation, provide the files changed and briefly explain the changes.
