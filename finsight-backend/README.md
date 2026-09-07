@@ -1,114 +1,113 @@
-Improve the ISQuest Topics & Question Bank backend with duplicate detection and Question Edit/Delete APIs.
+Improve the ISQuest Topics & Question Bank frontend, specifically the Manage Topic experience.
 
-Do not modify Quiz Management or unrelated features.
+Do not modify Quiz Management or the existing Topics dashboard UI.
 
-1. Duplicate detection
+1. Fix the existing Manage Topic view.
 
-Update the existing QuestionRepository with a way to find a question by:
-- topic
-- normalized question text
+When clicking "Manage →" on a TopicCard:
+- Show the selected topic's actual name.
+- Show its description.
+- Show the number of questions.
+- Provide a clear "Back to Topics" action.
 
-Normalization should:
-- trim leading/trailing whitespace
-- collapse repeated whitespace
-- compare case-insensitively
+2. Use the existing API:
+src/api.js
 
-2. Duplicate rules
+Add/update:
 
-A question is considered a duplicate when the normalized question text already exists under the same Topic.
+api.questions = {
+    importPreview: ...,
+    import: ...,
+    update: (id, data) => ...,
+    delete: (id) => ...
+};
 
-Do NOT treat the same question text in different Topics as a duplicate.
+Do not create another API/service file.
 
-3. Excel import/preview
+3. Use:
+GET /api/topics/{topicId}/questions
 
-Update the existing Excel preview validation to detect:
-- duplicates within the uploaded Excel file
-- duplicates against questions already stored in MySQL
+to load the selected topic's questions.
 
-For duplicates within the uploaded file, compare:
-Category + normalized Question
+4. Fix the current question display.
+Do NOT show placeholder/default text such as:
+"Untitled Question"
 
-For duplicates against MySQL, compare:
-Topic + normalized Question
-
-4. Duplicate rows must be marked invalid and must NOT be imported.
-
-Return a clear error such as:
-"Duplicate question already exists in this topic."
-
-For duplicates within the same Excel file:
-"Duplicate question found in uploaded file."
-
-5. Preserve the existing preview response structure as much as possible.
-
-6. Question Edit API
-
-Implement:
-PUT /api/questions/{id}
-
-Accept a request containing:
-- topicId
-- contributedBy
+Map the actual backend response fields:
 - question
 - option1
 - option2
 - option3
 - option4
 - correctAnswer
+- contributedBy
 
-Validate all required fields.
+5. Redesign QuestionCard.jsx to match the existing Quiz Management visual style:
+- clean white card
+- subtle border/shadow
+- clear question text
+- four clearly separated options
+- visually distinguish the correct answer
+- contributor information
+- Edit and Delete actions
 
-Correct Answer must match the value of one of the four options.
+6. Add a question search bar:
+Placeholder:
+"Search questions..."
 
-7. During update, perform duplicate detection using:
-topic + normalized question
+Filter the currently loaded questions by question text.
 
-Exclude the current question ID from the duplicate check so a question can be saved without changing its text.
+7. Add an "Edit" action.
 
-8. Question Delete API
+Clicking Edit should open an edit modal/form containing:
+- Question
+- Option 1
+- Option 2
+- Option 3
+- Option 4
+- Correct Answer
+- Contributed By
+- Topic
 
-Implement:
-DELETE /api/questions/{id}
+8. For Correct Answer, use a dropdown containing the four option values.
+The selected correct answer must always be one of the current option values.
 
-Delete the question if it exists.
+9. When an option value is changed, ensure the Correct Answer selection remains valid.
 
-Return an appropriate success response.
-Return 404 when the question does not exist.
+10. On Save:
+- Call PUT /api/questions/{id}
+- Show a saving state.
+- Close the modal on success.
+- Refresh the questions for the selected topic.
+- Refresh topic data so the question count stays accurate.
 
-9. Update QuestionService with:
-- updateQuestion(...)
-- deleteQuestion(...)
+11. Add a Delete action.
 
-Keep entity-to-response mapping in the existing service pattern.
+When Delete is clicked, show a confirmation dialog:
+"Are you sure you want to delete this question?"
 
-10. Create/update request DTOs under the existing model package.
-Do not expose JPA entities directly.
+Include:
+Cancel
+Delete
 
-11. After updating or deleting a question, the existing:
-GET /api/topics/{topicId}/questions
-must immediately return the updated question list.
+12. On confirmation:
+- Call DELETE /api/questions/{id}
+- Show a deleting state.
+- Remove/refresh the question after success.
+- Refresh topic data.
 
-12. Ensure Topic question counts returned by:
-GET /api/topics
-remain accurate after question creation, update and deletion.
+13. Handle API errors with simple inline messages.
+Do not add a new notification library.
 
-13. Use the existing exception-handling approach.
+14. Keep Edit/Delete disabled while their API request is running.
 
-14. Keep the existing local Excel storage implementation.
-Do not add S3 or Bedrock changes.
+15. Do not use mock questions or hardcoded question data.
 
-15. Do not break the existing:
-GET /api/topics
-GET /api/topics/{id}
-GET /api/topics/{topicId}/questions
-GET /api/questions/{id}
-POST /api/questions/import/preview
-POST /api/questions/import
+16. Preserve the existing TopicsDashboard, TopicCard, Upload Questions and Excel preview/import functionality.
 
-16. Verify the project compiles and test:
-- duplicate in Excel
-- duplicate against database
-- updating a question
-- deleting a question
-- deleting a nonexistent question
-- updating without creating a duplicate.
+17. Do not create pages/, services/, hooks/, or nested component folders.
+
+18. Keep all feature-specific components directly under:
+src/features/topicsQuestionBank/
+
+19. Verify the application builds successfully.
