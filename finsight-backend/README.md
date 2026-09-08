@@ -1,9 +1,9 @@
-Fix the public quiz question progression and completion logic.
-Inspect the existing Quiz configuration, topic/question-pool and participant session implementation first.
-When a participant starts, generate their complete eligible question sequence ONCE.
-For RANDOM_PER_PARTICIPANT, shuffle/select once and persist the sequence to that participant session.
-For SAME_FOR_EVERYONE, use the configured common question sequence.
-Store the selected question IDs and current question index in the session.
-GET current question must use the persisted sequence and index, never randomly select again.
-After the final question is answered or times out, mark the session COMPLETED.
-Never return a question after the session is COMPLETED.
+Fix answer validation in the public quiz answer API.
+Inspect how selectedAnswer and Question.correctAnswer are currently stored and compared.
+Normalize both values using trim and case-insensitive comparison.
+Validate against the actual option value, not option letter/index.
+Return the stored correct option value only after submission.
+Ensure every question's correctAnswer matches exactly one of option1, option2, option3 or option4.
+If an invalid question is detected, return a clear backend error instead of silently marking it incorrect.
+Prevent duplicate submissions for a completed/current question.
+Do not change the scoring formula in this step.
