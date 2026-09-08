@@ -1,10 +1,9 @@
-Implement the public quiz SSO entry flow.
-Reuse the existing User entity and temporary development authentication.
-Do not accept name as user input; identity must come from SSO.
-For development, use the existing dummy users to simulate SSO identity.
-Add POST /api/public/quizzes/{quizId}/start accepting only the development SSO identity.
-Resolve the identity to the stored User and create a participant quiz session.
-Allow entry only when the quiz status is ACTIVE.
-Prevent duplicate active sessions for the same user and quiz.
-Return sessionId, quizId, participant name, email and quiz details.
-Keep the design ready for Okta to replace the development SSO later.
+Update the public quiz entry flow to use SSO only.
+When "Join Quiz" is clicked, open the quiz in a NEW browser tab.
+Create a separate immersive QuizEntry layout without the management sidebar/footer.
+Do not ask the participant to enter their name.
+For development, provide a simple "Continue with SSO" action using the existing dummy SSO users.
+After SSO resolves the user identity, call the quiz start API.
+Display the resolved participant name as confirmation before starting.
+On success, transition directly into the Quiz screen.
+Keep this structured so Okta SSO can replace the development SSO later.
