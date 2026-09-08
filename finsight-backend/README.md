@@ -1,12 +1,12 @@
-Fix the existing public quiz backend flow without changing unrelated functionality.
+Fix the existing immersive public quiz frontend to match the backend state exactly.
 
-1. Fix leaderboard data so the result API always returns top 5 completed participants with rank, name and score.
-2. Fix answer validation so correctAnswer is always returned from the Question entity for both correct and incorrect submissions.
-3. Ensure the participant session uses exactly the configured questionsPerParticipant from its persisted question sequence.
-4. Keep RANDOM_PER_PARTICIPANT, but generate and persist the finite question sequence only once when the session starts.
-5. Enforce exactly 20 seconds per question using server-side question start timestamps.
-6. On timeout, record the question as unanswered with 0 points and advance normally.
-7. Mark the session COMPLETED only after the final persisted question is answered or times out.
-8. Never return another question once the session is COMPLETED.
-9. Prevent duplicate answer/timeout submissions and race conditions.
-10. Do not change the existing scoring formula or quiz configuration.
+1. Fix leaderboard display using the result API response; show top 5 rank, participant name and score.
+2. For incorrect answers, display the correctAnswer returned by the API instead of "answer not provided".
+3. Use the backend's persisted question sequence and configured total question count; never calculate or randomize it on the frontend.
+4. Remove any overall quiz timer.
+5. Start a strict 20-second timer whenever a new question is received.
+6. When 20 seconds expires, submit that question as unanswered exactly once.
+7. Do not trigger quiz completion randomly from frontend timer/state logic.
+8. Only show QUIZ COMPLETE when the backend confirms the session is completed or the final result is returned.
+9. Prevent duplicate Next, answer and timeout API calls.
+10. Keep the existing immersive UI and scoring display unchanged.
