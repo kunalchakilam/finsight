@@ -1,10 +1,9 @@
-Debug the public quiz flow because SSO succeeds but the first question never appears.
-Trace the complete flow from POST /api/public/quizzes/{quizId}/start to GET current question.
-Inspect the existing Quiz, Question, participant-session entities, services and controllers before changing anything.
-Verify that /start creates a valid sessionId and that the response contains it.
-Verify the session is linked to the correct ACTIVE quiz and has a valid current question.
-Fix any question-selection, session-state, transaction or API response issue found.
-GET /question must return the first eligible question with its four options.
-Never return correctAnswer.
-Add clear backend logging for quizId, sessionId and questionId during this flow.
-Do not modify scoring, leaderboard or quiz UI in this step.
+Debug the public quiz flow because SSO succeeds but the first question is not displayed.
+Trace the flow from QuizEntry SSO submission through the start API to the Quiz screen.
+Inspect the existing QuizEntry, Quiz screen, routing and src/api.js implementation before changing anything.
+Verify the start API response is received and sessionId is stored/passed correctly.
+Verify the Quiz screen actually calls the current-question API after receiving sessionId.
+Verify the API response is mapped correctly to question text and four options.
+Add temporary console logging for start response, sessionId and question response.
+Handle loading and API errors visibly instead of leaving a blank screen.
+Do not redesign the gamified UI or change scoring in this step.
