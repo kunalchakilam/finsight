@@ -1,11 +1,10 @@
-Fix the immersive Quiz screen answer flow.
-Inspect the existing answer submission and question-loading logic before changing it.
-After an answer is submitted, display the returned correct/incorrect result and earned points.
-After the result state, request the next question using the SAME participant sessionId.
-Do not reuse or cache the previous question response.
-If nextQuestionAvailable is false or completed=true, stop the quiz and show the final result screen.
-Reset the 20-second timer whenever a new question loads.
-Reset selectedAnswer and answer state for every new question.
-When the timer reaches zero, submit the unanswered response exactly once.
-Prevent duplicate answer API calls from clicks or timer events.
-Keep the existing gamified UI unchanged.
+Update public quiz scoring using the existing ISQuest scoring scheme.
+Standard question: 600 base points; Double Points: 1200 base points.
+Time bonus is up to 400 points and decreases as response time increases.
+Maximum score: 1000 for Standard and 1600 for Double Points.
+Incorrect and unanswered answers receive 0 points.
+Calculate response time using server timestamps, never the browser timer.
+For each submitted answer return selectedAnswer, correctAnswer, correct, earnedPoints and answerStatus.
+answerStatus must be CORRECT, INCORRECT or UNANSWERED.
+On completion return totalScore, correctCount, incorrectCount, unansweredCount and totalTimeSeconds.
+Do not expose scoring internals that are unnecessary for the frontend.
