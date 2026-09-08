@@ -1,24 +1,10 @@
-Update Quiz creation to support scheduling.
-
-1. Change Quiz status to:
-   UPCOMING, ACTIVE, COMPLETED.
-
-2. Add to Quiz:
-   - scheduleMode (NOW/LATER)
-   - startDateTime (nullable)
-   - endDateTime (nullable)
-
-3. Update CreateQuizRequest and QuizResponse accordingly.
-
-Validation:
-- scheduleMode is required.
-- NOW requires startDateTime and endDateTime.
-- NOW start must be future.
-- NOW end must be after start.
-- LATER must allow null dates.
-
-Every newly created quiz must start as UPCOMING.
-Never create a quiz as ACTIVE.
-
-Reuse existing Quiz service/controller/DTO structure.
-Do not implement automatic status transitions yet.
+Implement a temporary development authentication flow for ISQuest.
+Inspect the existing backend structure and reuse existing security/configuration.
+Create/reuse User entity with: id, name, email, role, createdAt, updatedAt.
+Role must be SUPER_ADMIN, ADMIN, USER.
+Add repository and a small auth service/controller as needed.
+Add POST /api/auth/dev-login accepting email and returning user details + role.
+Reject unknown emails with 401.
+Seed 3 dummy users: superadmin@syf.com (SUPER_ADMIN), admin@syf.com (ADMIN), user@syf.com (USER).
+Keep this clearly temporary and structured so Okta authentication can replace it later.
+Ensure the endpoint works with the existing Spring Security configuration.
