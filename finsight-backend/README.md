@@ -1,10 +1,9 @@
-Update public quiz scoring using the existing ISQuest scoring scheme.
-Standard question: 600 base points; Double Points: 1200 base points.
-Time bonus is up to 400 points and decreases as response time increases.
-Maximum score: 1000 for Standard and 1600 for Double Points.
-Incorrect and unanswered answers receive 0 points.
-Calculate response time using server timestamps, never the browser timer.
-For each submitted answer return selectedAnswer, correctAnswer, correct, earnedPoints and answerStatus.
-answerStatus must be CORRECT, INCORRECT or UNANSWERED.
-On completion return totalScore, correctCount, incorrectCount, unansweredCount and totalTimeSeconds.
-Do not expose scoring internals that are unnecessary for the frontend.
+Update the completed quiz result and leaderboard APIs.
+Leaderboard must rank participants by totalScore descending.
+Use total completion time as the tie-breaker when scores are equal.
+Return the top 3 participants for the participant result screen.
+Also return the current participant's rank, name and score.
+Return correct, incorrect and unanswered counts for the current participant.
+Never expose participant SSO or email.
+Ensure incomplete/active sessions are excluded from the completed leaderboard.
+Reuse existing QuizParticipant/session data instead of creating duplicate models.
