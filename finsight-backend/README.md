@@ -1,10 +1,11 @@
-Fix the public quiz answer flow: every selected answer is currently marked incorrect and the question never advances.
-Inspect the existing answer controller, service, QuizParticipant/session and Question entities before changing code.
-Compare selectedAnswer with the stored Question.correctAnswer using normalized trimmed, case-insensitive values.
-Return correct=true only when the actual answer values match.
-After a valid submission, persist the participant's answer, score and question progression.
-Ensure the session advances to the next eligible question after each submission.
-When the final question is answered, mark the session COMPLETED and do not return another question.
-Prevent duplicate submissions for the same question.
-Return correct, earnedPoints, questionNumber, nextQuestionAvailable and completed.
-Keep the existing 20-second limit and scoring rules.
+Fix the immersive Quiz screen answer flow.
+Inspect the existing answer submission and question-loading logic before changing it.
+After an answer is submitted, display the returned correct/incorrect result and earned points.
+After the result state, request the next question using the SAME participant sessionId.
+Do not reuse or cache the previous question response.
+If nextQuestionAvailable is false or completed=true, stop the quiz and show the final result screen.
+Reset the 20-second timer whenever a new question loads.
+Reset selectedAnswer and answer state for every new question.
+When the timer reaches zero, submit the unanswered response exactly once.
+Prevent duplicate answer API calls from clicks or timer events.
+Keep the existing gamified UI unchanged.
