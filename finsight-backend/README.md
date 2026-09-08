@@ -1,9 +1,10 @@
-Update the public quiz entry flow to use SSO only.
-When "Join Quiz" is clicked, open the quiz in a NEW browser tab.
-Create a separate immersive QuizEntry layout without the management sidebar/footer.
-Do not ask the participant to enter their name.
-For development, provide a simple "Continue with SSO" action using the existing dummy SSO users.
-After SSO resolves the user identity, call the quiz start API.
-Display the resolved participant name as confirmation before starting.
-On success, transition directly into the Quiz screen.
-Keep this structured so Okta SSO can replace the development SSO later.
+Update the temporary ISQuest development authentication to use SSO only.
+Add a unique 9-digit SSO field to the existing User entity.
+Keep name, email and role as stored user details, but do not accept them during login.
+Seed/update the 3 dummy users with these SSOs:
+290000001 SUPER_ADMIN, 290000001 ADMIN, 290000002 USER.
+Update POST /api/auth/dev-login to accept only the 9-digit SSO.
+Validate that the SSO contains exactly 9 digits and reject unknown SSOs.
+Return the resolved user's id, name, email and role.
+Remove the previous email-based development login behavior.
+Keep this clearly temporary for eventual Okta SSO replacement.
