@@ -1,9 +1,10 @@
-Complete the public quiz final-result and leaderboard flow.
-When the participant answers or times out on the final question, mark the session COMPLETED.
-Calculate and persist final score, correct count, incorrect count, unanswered count and total completion time.
-Return these values from GET /api/public/quiz-sessions/{sessionId}/result.
-Return the top 5 completed participants for that quiz, ranked by score descending.
-Use total completion time as the tie-breaker for equal scores.
-Also return the current participant's rank, score, name and statistics.
-If the participant is already in the top 5, do not duplicate them outside the leaderboard.
-Never expose SSO or email in leaderboard data.
+Implement the final quiz completion screen using the result API.
+When the final question finishes, stop the quiz completely and load the participant result.
+Show "QUIZ COMPLETE" and the participant's total score prominently.
+Show Correct, Incorrect, Unanswered and total time taken.
+Below the summary, show the TOP 5 leaderboard with rank, participant name and score.
+Highlight the current participant if they appear in the top 5.
+If outside the top 5, show "Your Position" separately with their rank and score.
+Keep the immersive charcoal/neon gamified styling.
+Do not show questions, options, timer or progress after completion.
+Do not allow another question/API request after the quiz is completed.
