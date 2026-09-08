@@ -1,10 +1,9 @@
-Build the immersive gamified Quiz screen after successful participant SSO.
-Use a completely separate layout with a charcoal-gray gradient background.
-Show question progress, question text and four large answer tiles.
-Use light Amber Yellow, Teal Blue, Green and Brick Red for A, B, C and D.
-Place a circular 20-second countdown timer on the left-middle.
-Selecting an option must immediately submit and lock all options.
-Show Correct/Incorrect and earned points after submission.
-Automatically move to the next question after the result state.
-When the timer reaches zero, submit an unanswered response automatically.
-Do not use the management Header, Sidebar or Footer.
+Diagnose why GET /api/public/quiz-sessions/{sessionId}/question returns "No questions are available".
+Do not modify code yet.
+Trace the flow from Quiz creation → persisted topic/question configuration → participant session → current question.
+Verify the quiz session references the correct quiz.
+Verify the quiz's topic configurations and selected question IDs exist in the database.
+Verify questions are actually present for those topics.
+Check both "USE_ALL" and manual question selection handling.
+Identify the exact missing/broken mapping and report the affected entity, repository/service and method.
+Do not create duplicate entities or change the API contract.
