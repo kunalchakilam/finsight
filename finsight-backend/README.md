@@ -1,10 +1,10 @@
-Implement the backend question flow for an active public quiz session.
-Reuse the existing Quiz, Question and participant session entities.
-GET /api/public/quiz-sessions/{sessionId}/question returns the current question and four options.
-Never return correctAnswer to the frontend.
-POST /api/public/quiz-sessions/{sessionId}/answer accepts questionId and selectedAnswer.
-Use the server timestamp to enforce the fixed 20-second limit.
-Calculate correctness and points entirely on the server.
-Return correctness, earnedPoints, nextQuestionAvailable and questionNumber.
-Prevent duplicate submissions for the same question.
-Advance the participant session only after a valid answer or timeout.
+Build the immersive gamified Quiz screen after successful participant SSO.
+Use a completely separate layout with a charcoal-gray gradient background.
+Show question progress, question text and four large answer tiles.
+Use light Amber Yellow, Teal Blue, Green and Brick Red for A, B, C and D.
+Place a circular 20-second countdown timer on the left-middle.
+Selecting an option must immediately submit and lock all options.
+Show Correct/Incorrect and earned points after submission.
+Automatically move to the next question after the result state.
+When the timer reaches zero, submit an unanswered response automatically.
+Do not use the management Header, Sidebar or Footer.
