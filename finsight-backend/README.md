@@ -1,9 +1,9 @@
-Update the ISQuest temporary login page to use SSO only.
-Remove the email field and any password or registration UI.
-Show a single "SSO" input accepting exactly 9 digits.
-Add a primary "Sign in with SSO" button.
-Call POST /api/auth/dev-login through the existing src/api.js.
-Validate that SSO contains exactly 9 digits before submitting.
-On success, store the returned user identity and role as before.
-Redirect to the existing role-specific landing page.
-Keep the existing Synchrony/ISQuest light corporate styling.
+Implement the temporary SSO-based participant entry for public quizzes.
+Reuse the existing User entity and 9-digit SSO authentication logic.
+Add a participant session entity if one does not already exist.
+Add POST /api/public/quizzes/{quizId}/start accepting only the 9-digit SSO.
+Resolve the SSO to the existing User and create a quiz participant session.
+Allow starting only when the quiz status is ACTIVE.
+Prevent the same SSO from creating multiple active sessions for the same quiz.
+Return sessionId, quizId, quiz name, participant name and total question count.
+Do not add a lobby or host-start requirement.
