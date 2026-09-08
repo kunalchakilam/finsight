@@ -1,9 +1,10 @@
-Diagnose why GET /api/public/quiz-sessions/{sessionId}/question returns "No questions are available".
-Do not modify code yet.
-Trace the flow from Quiz creation → persisted topic/question configuration → participant session → current question.
-Verify the quiz session references the correct quiz.
-Verify the quiz's topic configurations and selected question IDs exist in the database.
-Verify questions are actually present for those topics.
-Check both "USE_ALL" and manual question selection handling.
-Identify the exact missing/broken mapping and report the affected entity, repository/service and method.
-Do not create duplicate entities or change the API contract.
+Debug the public quiz flow because SSO succeeds but the first question never appears.
+Trace the complete flow from POST /api/public/quizzes/{quizId}/start to GET current question.
+Inspect the existing Quiz, Question, participant-session entities, services and controllers before changing anything.
+Verify that /start creates a valid sessionId and that the response contains it.
+Verify the session is linked to the correct ACTIVE quiz and has a valid current question.
+Fix any question-selection, session-state, transaction or API response issue found.
+GET /question must return the first eligible question with its four options.
+Never return correctAnswer.
+Add clear backend logging for quizId, sessionId and questionId during this flow.
+Do not modify scoring, leaderboard or quiz UI in this step.
