@@ -1,9 +1,12 @@
-Fix the immersive quiz frontend so question order is completely controlled by the backend.
-1. Never generate, shuffle or randomize questions on the frontend.
-2. Always render the question returned by the current quiz-session API.
-3. Keep the same sessionId throughout the entire attempt.
-4. After Next, answer or timeout, request the next question from the backend.
-5. Never calculate the next question using a local question array or random function.
-6. Reset answer selection and the 20-second timer only when a genuinely new question is received.
-7. Prevent duplicate answer, timeout and Next API calls.
-8. Keep the existing immersive UI and scoring display unchanged.
+Standardize all ISQuest quiz scheduling and business time handling to Stamford, Connecticut time.
+1. Use America/New_York as the single application timezone, representing Stamford, CT.
+2. Never use the server, browser or laptop local timezone for quiz scheduling or business logic.
+3. Backend must interpret quiz creation start/end times as America/New_York.
+4. Future-time validation must compare against the current time in America/New_York.
+5. Quiz UPCOMING, ACTIVE and COMPLETED status transitions must use America/New_York.
+6. Audit all LocalDateTime, ZonedDateTime, ZoneId and date parsing currently used.
+7. Remove inconsistent local-time conversions and timezone assumptions.
+8. Do not hardcode UTC-5; America/New_York automatically handles EST/EDT.
+9. Store timestamps consistently without changing the intended instant.
+10. API responses must preserve enough timezone/offset information for correct frontend display.
+11. Do not change unrelated quiz functionality.
