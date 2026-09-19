@@ -1,8 +1,11 @@
-Update the final quiz result screen to display the backend's active answering time.
-1. Use totalTimeTaken returned by the final result API.
-2. Do not calculate total quiz time on the frontend.
-3. Display it as "Total Time Taken".
-4. Format seconds clearly, for example 35s or 1m 12s.
-5. Do not include time spent waiting between questions or viewing the result screen.
-6. Keep the existing result screen layout and leaderboard unchanged.
-7. Do not change the question timer or scoring display.
+Add quiz owner information to the existing quiz creation flow.
+1. Inspect the existing User authentication/session and Quiz entity before making changes.
+2. Add createdBy and ownerName fields to the Quiz entity if they do not already exist.
+3. createdBy should store the authenticated creator's User ID/reference.
+4. ownerName should store the creator's current display name.
+5. During POST /api/quizzes, get the authenticated user's details from the backend security context/session; never accept ownerName from the frontend request.
+6. Populate createdBy and ownerName automatically when creating the Quiz.
+7. Persist both values in the database.
+8. Update quiz response DTOs/models to return ownerName and createdBy where appropriate.
+9. Existing quizzes without owner information should not break existing APIs.
+10. Do not create a separate owner entity or duplicate User data.
