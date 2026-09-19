@@ -1,12 +1,10 @@
-Standardize all ISQuest quiz scheduling and business time handling to Stamford, Connecticut time.
-1. Use America/New_York as the single application timezone, representing Stamford, CT.
-2. Never use the server, browser or laptop local timezone for quiz scheduling or business logic.
-3. Backend must interpret quiz creation start/end times as America/New_York.
-4. Future-time validation must compare against the current time in America/New_York.
-5. Quiz UPCOMING, ACTIVE and COMPLETED status transitions must use America/New_York.
-6. Audit all LocalDateTime, ZonedDateTime, ZoneId and date parsing currently used.
-7. Remove inconsistent local-time conversions and timezone assumptions.
-8. Do not hardcode UTC-5; America/New_York automatically handles EST/EDT.
-9. Store timestamps consistently without changing the intended instant.
-10. API responses must preserve enough timezone/offset information for correct frontend display.
-11. Do not change unrelated quiz functionality.
+Update ISQuest scheduling UI to consistently use Stamford, CT time.
+1. Treat America/New_York as the standard timezone for all quiz scheduling.
+2. Display "Stamford, CT Time (ET)" beside quiz start/end date-time fields.
+3. Do not use the browser or laptop local timezone for scheduling.
+4. Send entered date-time values to the backend with the correct America/New_York interpretation.
+5. Display existing quiz start/end times using Stamford, CT time.
+6. Future-time validation must use the backend's America/New_York time.
+7. Do not silently convert scheduled times to the user's machine timezone.
+8. Keep the existing date/time picker and UI design unchanged.
+9. Do not change unrelated quiz functionality.
