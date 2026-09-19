@@ -1,11 +1,11 @@
-Audit and fix all question randomization in the existing quiz flow.
-1. Randomization must happen exactly once when a participant session starts.
-2. RANDOM_PER_PARTICIPANT must generate one finite sequence and persist it in the active Redis session.
-3. SAME_FOR_EVERYONE must use one stable sequence for every participant.
-4. GET current question must only read the persisted sequence and current index.
-5. Answer, Next, timeout and refresh must never reshuffle questions.
-6. Ensure the number of selected questions exactly matches questionsPerParticipant.
-7. Ensure no question can appear twice in the same participant attempt.
-8. Ensure completion occurs after the final persisted question.
-9. Do not change scoring, timer rules or quiz configuration.
-10. Remove any duplicate/random selection logic found in controllers or services.
+Audit and simplify the existing ISQuest backend before adding any new endpoint.
+1. Inspect every controller, service, repository, entity, DTO/model and utility currently used by quiz functionality.
+2. Identify duplicate implementations, especially PublicQuiz, PublicQuestion and separate public session classes.
+3. Reuse the existing Quiz, Question, Topic, User and QuizParticipant/session entities for all quiz access modes.
+4. Keep one shared QuizService, QuestionService, TopicService and QuizSessionService.
+5. Keep separate controllers only when the access flow genuinely differs.
+6. Do not create duplicate quiz engines, question services, repositories or entities.
+7. Ensure normal portal and public quiz flows continue using the same shared quiz/session logic.
+8. Remove obsolete duplicate classes only after checking all references.
+9. Preserve all existing API contracts and frontend functionality.
+10. Do not implement Experience Center, Redis or any new feature in this step.
