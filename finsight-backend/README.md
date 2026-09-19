@@ -1,13 +1,11 @@
-Implement the Spin the Wheel immersive presentation for landscape laptop/desktop screens.
-1. Split the screen into equal left and right halves.
-2. Left side shows the wheel; place a prominent SPIN button in its center.
-3. Right side initially shows a prompt to spin and no question timer.
-4. Clicking SPIN calls the backend spin endpoint and animates the wheel for exactly 3 seconds.
-5. Animate the wheel to the backend-returned wheel position, then display that question on the right.
-6. Start the strict 20-second question timer only after the wheel stops.
-7. Selecting an answer immediately stops the timer and shows correct/incorrect feedback.
-8. Clicking anywhere after feedback advances to the score/result state with a NEXT button.
-9. NEXT returns to the wheel with the completed question removed.
-10. Do not show another spin after the final question; go directly to the existing final result screen.
-11. Use short wheel labels such as Q1 + Topic Name, not full question text.
-12. Keep backend question selection authoritative and never randomize questions locally.
+Add Presentation / UI Theme to the quiz creation flow.
+1. Add three options: Standard Quiz, Spin the Wheel and Random.
+2. Standard Quiz uses the existing immersive quiz experience.
+3. Spin the Wheel uses the new wheel presentation.
+4. Random resolves once per participant to either Standard Quiz or Spin the Wheel.
+5. Store the selected presentationMode with the quiz configuration.
+6. Keep presentationMode separate from question selection mode.
+7. Show a short description for each option in the UI.
+8. Preserve the existing three-step Create Quiz flow and Review step.
+9. Display the selected presentation mode in Review before quiz creation.
+10. Do not change existing question selection, scoring or scheduling behavior.
