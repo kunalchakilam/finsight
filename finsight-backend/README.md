@@ -1,13 +1,11 @@
-Audit and clean up the existing ISQuest backend structure before adding Redis.
-
-Inspect every controller, service, repository, entity, model/DTO and utility currently created.
-Identify duplicate or overlapping files/classes, especially the separate Public Quiz implementation.
-Do not create another architecture or duplicate domain entities.
-Reuse existing Quiz, Question, Topic, User and Participant/session entities wherever functionality represents the same domain object.
-Merge duplicate controllers/services/repositories when their responsibilities overlap.
-Keep public quiz endpoints separate only where the API access/use case genuinely differs, while reusing the same underlying services and entities.
-Remove obsolete classes, unused DTOs, duplicate configurations and dead code only after confirming they are no longer referenced.
-Keep the existing API contracts and frontend functionality working.
-Preserve security, quiz management, question bank, scheduling and participant functionality.
-Keep the package structure simple: controller, service, repository, entity, model, config, exception, util.
-Do not add Redis, new features or reports in this step.
+Implement Redis caching for active quiz sessions without changing existing quiz behavior.
+1. Inspect the existing quiz/session/question flow first and reuse existing entities/services.
+2. When a participant starts a quiz, load the complete configured question sequence from DB once.
+3. Store the active session state in Redis: question sequence, question data/options, current index, question start time, answers, score and answer counts.
+4. Keep correctAnswer server-side only; never expose it in the cached frontend question response.
+5. All current-question, answer and timeout operations must read/write Redis instead of repeatedly querying DB.
+6. Generate RANDOM_PER_PARTICIPANT sequence exactly once and persist it in Redis for the session.
+7. Keep SAME_FOR_EVERYONE sequence stable as well.
+8. On completion, persist final result/statistics to DB and remove or expire the Redis session.
+9. Add a sensible TTL for abandoned sessions.
+10. Reuse existing Redis/configuration if present; do not create duplicate quiz/session entities or services.
