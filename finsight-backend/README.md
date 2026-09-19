@@ -1,10 +1,11 @@
-Update ISQuest scheduling UI to consistently use Stamford, CT time.
-1. Treat America/New_York as the standard timezone for all quiz scheduling.
-2. Display "Stamford, CT Time (ET)" beside quiz start/end date-time fields.
-3. Do not use the browser or laptop local timezone for scheduling.
-4. Send entered date-time values to the backend with the correct America/New_York interpretation.
-5. Display existing quiz start/end times using Stamford, CT time.
-6. Future-time validation must use the backend's America/New_York time.
-7. Do not silently convert scheduled times to the user's machine timezone.
-8. Keep the existing date/time picker and UI design unchanged.
-9. Do not change unrelated quiz functionality.
+Fix the quiz total time calculation to measure only active question-answering time.
+1. Do not calculate total time as quizCompletedAt minus quizStartedAt.
+2. Track the time spent on each individual question using its server-side question start timestamp.
+3. When an answer is submitted, calculate only the elapsed time for that question.
+4. Add each question's response time to the participant's cumulative total.
+5. If a question times out without an answer, count its full 20 seconds.
+6. Do not include time spent waiting before the next question, API/loading delays, result-screen time or idle time.
+7. Persist the cumulative active answering time with the completed participant result.
+8. Return this value as totalTimeTaken in the final result API.
+9. Keep the existing 20-second-per-question timer and scoring formula unchanged.
+10. Use the server timestamp as the authoritative source for response-time calculation.
