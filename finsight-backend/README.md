@@ -1,22 +1,22 @@
-Refactor the Spin the Wheel presentation into a dedicated component/page instead of building the wheel directly inside QuizEntry.
+Now implement the actual wheel inside SpinWheelQuiz. Treat this as a custom UI component, not a generic spinner library.
 
-1. Keep QuizEntry responsible only for deciding the presentation mode and starting the quiz.
-2. When presentationMode is SPIN_WHEEL, render a dedicated SpinWheelQuiz component/page.
-3. Do not mix Spin Wheel rendering logic with the existing Standard Quiz UI.
-4. Create a dedicated wheel component inside the existing quiz feature structure, using the project's current folder conventions.
-5. The SpinWheelQuiz layout must be a full-screen landscape desktop/laptop experience with a strict 50/50 split.
-6. LEFT 50%: a large circular wheel centered both horizontally and vertically.
-7. RIGHT 50%: the question/options area, using the existing immersive quiz styling.
-8. Recreate the wheel structure from the provided reference: large perfect circle, equal radial segments, thin white/light-gray dividers, circular center button, and fixed triangular pointer on the RIGHT edge.
-9. Use ONE solid charcoal-gray color for every segment. No rainbow colors, gradients or individually colored segments.
-10. Use neon amber #FFB700 ONLY for wheel text, SPIN button emphasis and selected-segment highlight.
-11. Wheel labels must contain ONLY the topic name. Never show Q1, Q2, question numbers or full question text.
-12. Create exactly one wheel segment for every remaining question returned by the backend.
-13. Every segment must have equal angular size: 360 / remainingQuestionCount degrees.
-14. Arrange topic text along the segment radius/arc like the reference image, keeping text centered inside its segment.
-15. Dynamically recalculate the wheel whenever a question is removed; never hardcode 4, 6 or 8 segments.
-16. Keep the backend-selected question authoritative. Frontend must only animate the wheel to the backend-selected segment.
-17. Keep the existing 3-second spin animation and pointer position.
-18. After a question is completed, remove that question from the wheel before the next spin.
-19. Do not modify answer validation, timer, scoring, feedback or final-result logic.
-20. Make the wheel implementation isolated and reusable so future UI changes do not affect QuizEntry.
+1. Build the wheel as a true circular radial layout.
+2. The wheel must always remain a perfect circle using a fixed aspect ratio of 1:1.
+3. Calculate segmentAngle = 360 / remainingQuestions.length.
+4. Render each segment as a radial wedge covering exactly segmentAngle degrees.
+5. Use CSS conic-gradient or an equivalent radial rendering technique so the segments form one continuous perfect wheel.
+6. All segments use the same solid charcoal-gray background.
+7. Add thin light-gray/white radial divider lines between every segment.
+8. Add a subtle outer border/shadow around the complete wheel.
+9. Put the topic name centered inside each segment and rotate the text to follow the segment direction.
+10. Automatically reduce font size when there are many segments so labels remain inside their wedges.
+11. Never allow topic text to overlap the center button, wheel boundary or neighboring labels.
+12. Place a circular SPIN button exactly at the wheel center, above the wheel segments.
+13. Place one fixed triangular pointer at the 3 o'clock/right edge of the wheel.
+14. The pointer must NOT rotate with the wheel.
+15. The wheel rotates underneath the fixed pointer during the 3-second animation.
+16. After the backend returns wheelIndex, calculate the exact rotation required to place that segment under the pointer.
+17. Do not randomly choose the target segment on the frontend.
+18. Do not use a prebuilt colorful roulette/wheel component.
+19. Do not use different colors for individual segments.
+20. The result should visually match the provided reference image: simple, large, circular, radial, clean and professional.
