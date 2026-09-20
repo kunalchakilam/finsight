@@ -1,16 +1,16 @@
-Fix the existing Spin the Wheel quiz flow for the following issues. Do not redesign the quiz engine.
+Fix the existing Spin the Wheel frontend to stay synchronized with the backend session state.
 
-1. Fix wheel/question mismatch: every wheel segment must map to exactly one question in the participant's persisted remaining-question sequence.
-2. When POST /spin selects wheelIndex, the backend must select the exact question represented by that index and return questionId, questionNumber, topicName, wheelIndex and the complete question data required by the existing quiz UI.
-3. The returned question MUST belong to the returned topicName; never call the generic "next question" selection logic after a spin.
-4. Persist the selected question as the participant's current question before returning the spin response.
-5. The answer API must validate against that exact persisted current questionId, not a newly selected/random question.
-6. Fix answer validation: compare the submitted option value with Question.correctAnswer using trim + case-insensitive comparison.
-7. Always return the actual Question.correctAnswer in the answer-result response for incorrect answers.
-8. Prevent stale question IDs, duplicate submissions and race conditions between spin, answer and next calls.
-9. Fix session resume: if the same authenticated user already has an IN_PROGRESS session for the same quiz, starting the quiz must return that existing session instead of creating a new one.
-10. Resume must return the persisted current question, remaining questions, current score and current question state.
-11. Only create a new session when the user has no existing IN_PROGRESS session for that quiz.
-12. Do not mark an existing IN_PROGRESS session completed merely because the user closed the browser/tab.
-13. A session should become COMPLETED only after its final question is actually answered or times out.
-14. Keep the existing scoring, 20-second timer and final-result logic unchanged.
+1. When the spin API returns a selected question, display THAT exact question from the spin response.
+2. Do not call the generic next-question API after a successful spin.
+3. The returned questionId, topicName and question/options must remain together as one current-question state.
+4. The wheel segment selected by the backend must correspond to the topicName of the displayed question.
+5. When submitting an answer, send the exact current questionId and selected option VALUE from the displayed question.
+6. Do not send option index, option position or stale question data.
+7. For an incorrect answer, display the correctAnswer returned by the answer API and highlight that exact option.
+8. Reset answer state only when a genuinely new question is received.
+9. On reopening the same quiz as the same authenticated user, use the existing/resumed session returned by the backend.
+10. Restore the current question, remaining wheel segments, score and progress from that session instead of starting from Q1.
+11. If the resumed session is already COMPLETED, load the final result directly.
+12. Closing/reopening the browser tab must not create a new session or advance/complete the existing session.
+13. Prevent duplicate spin, answer and next API requests.
+14. Keep the existing wheel design, 3-second animation, 20-second timer, scoring and result UI unchanged.
