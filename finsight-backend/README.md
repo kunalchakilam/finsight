@@ -1,237 +1,543 @@
-I want to build a very small beginner-friendly project as a precursor to my main project "Fraud Knowledge Graph".
-
-The purpose is NOT to build a production fraud detector or ML model. I want to demonstrate that I understand the basic concepts of:
-1. Creating structured transaction data
-2. Recognizing patterns in the data
-3. Validating those patterns
-4. Modeling entities and relationships as a knowledge graph
-5. Exploring the graph using NetworkX
-
-IMPORTANT:
-- Build the ENTIRE project in one go.
-- Use Python + Jupyter Notebook.
-- Do NOT use Neo4j.
-- Use NetworkX for the knowledge graph.
-- Do NOT use XGBoost, deep learning, or complex ML.
-- Keep everything simple enough that I can explain every line to my mentor.
-- Create the dataset ourselves; do not download an external dataset.
-- The final notebook should run from top to bottom without requiring manual intervention.
+I want you to build the ENTIRE project in one go as a single Jupyter Notebook project.
 
 PROJECT TITLE:
-"Mini Fraud Knowledge Graph: Pattern Recognition with NetworkX"
+"Mini E-Commerce Knowledge Graph: Customer-Product Relationships with NetworkX"
 
-PROJECT GOAL:
-Create a small synthetic banking transaction dataset containing around 30–50 transactions and deliberately include a few understandable patterns such as:
-- Normal accounts making occasional transactions
-- One account sending money to multiple accounts
-- One destination receiving money from multiple accounts
-- A suspicious account performing multiple high-value transfers
-- A simple balance-depletion pattern
-- A small number of transactions labeled as fraudulent for validation
+PURPOSE:
+This is a small learning/prototype project before I build a larger Knowledge Graph project in the fraud domain.
 
-The patterns should be realistic but intentionally simple enough to understand.
-
-NOTEBOOK STRUCTURE:
-
-1. PROJECT INTRODUCTION
-- Markdown explaining the objective
-- Explain the difference between:
-  Pattern Recognition → finding interesting behavior in data
-  Knowledge Graph → representing entities and relationships
-- Explain that this is a small learning prototype before a larger fraud knowledge graph project.
-
-2. IMPORT LIBRARIES
-Use only simple libraries:
-- pandas
-- numpy
-- matplotlib
-- networkx
-
-3. CREATE SYNTHETIC DATASET
-Create the dataset directly in Python and save it as:
-data/mini_transactions.csv
-
-Columns:
-- transaction_id
-- step
-- type
-- amount
-- nameOrig
-- oldbalanceOrg
-- newbalanceOrig
-- nameDest
-- oldbalanceDest
-- newbalanceDest
-- isFraud
-
-Use around 30–50 transactions.
-
-Make sure the synthetic data contains deliberately designed patterns that we can later discover.
-
-4. DATA EXPLORATION
-Show:
-- Dataset shape
-- First 10 rows
-- Transaction type counts
-- Fraud vs non-fraud counts
-- Basic amount statistics
-- Fraud count by transaction type
-
-Create 2–3 simple visualizations.
-
-5. PATTERN DISCOVERY
-Analyze the dataset and identify simple patterns such as:
-
-A. High-value transactions
-B. Fraud concentration by transaction type
-C. Accounts involved in multiple transactions
-D. Accounts sending money to multiple destinations
-E. Destinations receiving money from multiple origins
-F. Balance depletion:
-   amount == oldbalanceOrg AND newbalanceOrig == 0
-
-For each pattern, print a small result table.
+I want to demonstrate that I understand:
+1. Creating structured data
+2. Discovering behavioral patterns
+3. Identifying relationships between entities
+4. Modeling those relationships as a Knowledge Graph
+5. Exploring the graph using NetworkX
+6. Using graph relationships to derive a very simple recommendation insight
 
 IMPORTANT:
-Do not claim that a pattern automatically means fraud.
-Use wording such as:
-"Observed pattern"
-"Potentially suspicious behavior"
-"Pattern associated with the synthetic fraud labels"
+- Build everything in ONE GO.
+- Use Python + Jupyter Notebook.
+- Use pandas, numpy, matplotlib and networkx only.
+- Do NOT use Neo4j.
+- Do NOT use machine learning.
+- Do NOT use external datasets.
+- Generate the synthetic shopping data ourselves.
+- Dataset must contain at least 200–500 interaction rows; target around 400–500 rows.
+- Use a fixed random seed so results are reproducible.
+- Make the synthetic data realistic and intentionally contain meaningful patterns.
+- Every notebook cell must run successfully from top to bottom.
+- Keep code beginner-readable because I need to explain it to my mentor.
+- Do not over-engineer or hide important logic in complex functions.
 
-6. PATTERN VALIDATION
-For the discovered patterns, calculate simple metrics where appropriate:
-- Number of transactions matching the pattern
-- Number of fraudulent transactions among them
-- Fraud coverage
-- False-positive count
+DOMAIN:
+Small e-commerce/shopping application.
 
-Keep the calculations very simple and explain what they mean.
+ENTITIES:
+- Customers: around 30–40
+- Products: around 30–40
+- Categories: around 8–10
+- Interaction rows: around 400–500
 
-7. KNOWLEDGE GRAPH DESIGN
-Before creating the graph, explain the graph model in Markdown.
+PRODUCT CATEGORIES:
+Use realistic categories such as:
+Electronics, Fashion, Home, Beauty, Sports, Books, Grocery, Accessories.
 
-Use this model:
+PRODUCTS:
+Create realistic product names and assign each product to a category.
 
-Account
-   |
-   | INITIATED
-   v
-Transaction
-   |
-   | SENT_TO
-   v
-Account
+CUSTOMER BEHAVIOR:
+Generate interaction data containing:
+- VIEWED
+- PURCHASED
+- RATED
 
-Nodes:
-- Account
-- Transaction
+The main interaction dataset should contain approximately 400–500 rows.
 
-Relationships:
-- Account -> Transaction : INITIATED
-- Transaction -> Account : SENT_TO
+Use columns such as:
+interaction_id
+customer_id
+product_id
+interaction_type
+timestamp
+rating
 
-Transaction node properties:
-- transaction_id
-- amount
-- type
-- step
-- isFraud
+For VIEWED/PURCHASED interactions, rating can be empty/null.
+For RATED interactions, use ratings from 1–5.
 
-Account node properties can include:
-- account_id
-- account_type if useful
+IMPORTANT DATA DESIGN:
+Do NOT generate completely random independent data.
 
-8. BUILD NETWORKX KNOWLEDGE GRAPH
-Create a NetworkX directed graph.
+Intentionally create behavioral patterns, for example:
+- Some products are much more popular than others.
+- Certain products are frequently purchased together.
+- Some customers have similar shopping behavior.
+- Certain categories are more popular.
+- Some products receive many views but relatively few purchases.
+- Some products have high purchase rates after being viewed.
+- Some customers repeatedly interact with products from a particular category.
 
-Add:
-- Account nodes
-- Transaction nodes
-- INITIATED edges
-- SENT_TO edges
+Make these patterns discoverable from the data.
+
+PROJECT STRUCTURE:
+
+mini-ecommerce-knowledge-graph/
+│
+├── data/
+│   ├── customers.csv
+│   ├── products.csv
+│   └── interactions.csv
+│
+└── mini_ecommerce_knowledge_graph.ipynb
+
+NOTEBOOK SECTIONS:
+
+==================================================
+1. PROJECT INTRODUCTION
+==================================================
+
+Use Markdown to explain:
+
+- What this project is.
+- What pattern recognition means in this context.
+- What a Knowledge Graph is.
+- Why relationships between customers and products can provide additional insight compared with a normal table.
+- Explain that this is a small synthetic prototype.
+
+Show the intended flow:
+
+Shopping Data
+      ↓
+Pattern Discovery
+      ↓
+Relationship Discovery
+      ↓
+Knowledge Graph
+      ↓
+Graph Exploration
+      ↓
+Simple Recommendation Insight
+
+
+==================================================
+2. IMPORT LIBRARIES
+==================================================
+
+Use only:
+
+pandas
+numpy
+matplotlib
+networkx
+
+Set a fixed random seed.
+
+
+==================================================
+3. CREATE SYNTHETIC DATASET
+==================================================
+
+Generate:
+
+customers.csv
+products.csv
+interactions.csv
+
+Create approximately:
+- 30–40 customers
+- 30–40 products
+- 8–10 categories
+- 400–500 interactions
+
+Display the first 10 rows of each dataset.
 
 Print:
-- Number of nodes
-- Number of edges
-- Number of account nodes
-- Number of transaction nodes
+- Number of customers
+- Number of products
+- Number of categories
+- Number of interactions
 
-9. GRAPH EXPLORATION
-Use NetworkX to identify simple graph patterns:
 
-- Accounts with the highest number of outgoing transactions
-- Accounts connected to multiple destinations
-- Destinations receiving transactions from multiple origins
-- Accounts connected to fraudulent transactions
-- Highly connected accounts
+==================================================
+4. DATA EXPLORATION
+==================================================
 
-Keep this simple.
+Analyze:
 
-10. GRAPH VISUALIZATION
+- Interaction type distribution
+- Product popularity
+- Category popularity
+- Customer activity
+- Purchase distribution
+- Rating distribution
+
+Create 3–4 simple visualizations:
+
+1. Interactions by type
+2. Top products by number of interactions
+3. Purchases by category
+4. Rating distribution
+
+Keep visualizations clean and readable.
+
+
+==================================================
+5. PATTERN DISCOVERY
+==================================================
+
+Discover and display tables for:
+
+PATTERN 1:
+Most interacted-with products.
+
+PATTERN 2:
+Most purchased products.
+
+PATTERN 3:
+Most popular product categories.
+
+PATTERN 4:
+Customers with the highest number of interactions.
+
+PATTERN 5:
+Products with many views but relatively fewer purchases.
+
+PATTERN 6:
+Products frequently purchased together.
+
+PATTERN 7:
+Customers with similar product/category behavior.
+
+For every pattern:
+- Show the underlying counts.
+- Clearly label it as an "Observed Pattern".
+- Do not make unsupported claims.
+
+
+==================================================
+6. SIMPLE PURCHASE-CONVERSION ANALYSIS
+==================================================
+
+For every product calculate:
+
+views
+purchases
+purchase_rate
+
+where:
+
+purchase_rate = purchases / views
+
+Handle zero-view products safely.
+
+Show:
+- Products with high views
+- Products with high purchase rates
+- Products with many views but lower purchase rates
+
+Explain that this is descriptive analysis of the synthetic data, not a predictive model.
+
+
+==================================================
+7. PRODUCT CO-PURCHASE PATTERNS
+==================================================
+
+Identify products that are frequently purchased by the same customers.
+
+For each customer:
+- collect purchased products
+- generate product pairs
+
+Calculate pair frequency.
+
+Create a table:
+
+Product A | Product B | Customers Purchasing Both
+
+Show the most frequent pairs.
+
+Explain that these are observed co-purchase relationships.
+
+
+==================================================
+8. CUSTOMER SIMILARITY
+==================================================
+
+Create a very simple customer similarity analysis.
+
+Use purchased products as the basis.
+
+For each pair of customers, calculate a simple similarity measure such as Jaccard similarity:
+
+intersection of purchased products /
+union of purchased products
+
+Show a small table containing:
+
+Customer A
+Customer B
+Shared Products
+Similarity
+
+Only show meaningful pairs with similarity > 0.
+
+Do NOT use machine learning.
+
+
+==================================================
+9. KNOWLEDGE GRAPH DESIGN
+==================================================
+
+Before building the graph, explain the graph model.
+
+Use these entities:
+
+Customer
+Product
+Category
+
+Relationships:
+
+Customer ──VIEWED──> Product
+
+Customer ──PURCHASED──> Product
+
+Customer ──RATED──> Product
+
+Product ──BELONGS_TO──> Category
+
+Product ──SIMILAR_TO──> Product
+
+Only create SIMILAR_TO relationships from the observed product relationships/co-purchase analysis, not randomly.
+
+Explain why the graph represents relationships that are difficult to see directly in a flat table.
+
+
+==================================================
+10. BUILD NETWORKX KNOWLEDGE GRAPH
+==================================================
+
+Create a directed NetworkX graph.
+
+Add:
+
+Customer nodes
+Product nodes
+Category nodes
+
+Add edges:
+
+VIEWED
+PURCHASED
+RATED
+BELONGS_TO
+SIMILAR_TO
+
+Store useful properties such as:
+
+Customer:
+customer_id
+
+Product:
+product_id
+product_name
+category
+
+Category:
+category_name
+
+Interaction edges:
+interaction_type
+timestamp
+rating where applicable
+
+Print:
+
+- Total nodes
+- Total edges
+- Customer node count
+- Product node count
+- Category node count
+- Number of VIEWED edges
+- Number of PURCHASED edges
+- Number of RATED edges
+- Number of SIMILAR_TO edges
+
+
+==================================================
+11. GRAPH EXPLORATION
+==================================================
+
+Use NetworkX to answer:
+
+1. Which products have the most customer connections?
+
+2. Which products have the most PURCHASED relationships?
+
+3. Which categories are connected to the most products?
+
+4. Which customers have the most product relationships?
+
+5. Which products have the highest number of SIMILAR_TO relationships?
+
+6. Which customers are connected to products that are frequently purchased together?
+
+
+==================================================
+12. SIMPLE GRAPH-BASED RECOMMENDATION
+==================================================
+
+Create ONE simple recommendation demonstration.
+
+For a selected customer:
+
+Customer
+   ↓
+PURCHASED
+   ↓
+Product A
+   ↓
+Other customers
+   ↓
+PURCHASED
+   ↓
+Product B
+
+Use graph relationships to find products purchased by other customers who also purchased products of the selected customer.
+
+Recommend products based purely on observed graph relationships.
+
+IMPORTANT:
+Call these:
+
+"Potential related products"
+
+NOT:
+
+"Guaranteed recommendations"
+
+Show the reasoning path, for example:
+
+Customer C01
+→ PURCHASED → Laptop
+→ Other customers also purchased → Mouse
+
+Therefore:
+
+Potential related product: Mouse
+
+
+==================================================
+13. GRAPH VISUALIZATION
+==================================================
+
 Create a clean NetworkX visualization.
 
-Use different visual treatment for:
-- Account nodes
-- Transaction nodes
-- Fraudulent transaction nodes
+Use visually different node styles for:
+
+Customer
+Product
+Category
+
+Use different edge styles/colors for:
+
+VIEWED
+PURCHASED
+RATED
+BELONGS_TO
+SIMILAR_TO
 
 Add a legend.
 
-Because the graph is small, make the visualization readable and suitable for showing a mentor.
+Because the complete graph may be crowded, ALSO create a focused subgraph around one selected customer and their connected products/categories.
 
-Also create one focused subgraph containing the suspicious/fraud-related accounts and transactions so the important pattern is easy to see.
+The focused graph should be easy to understand and suitable for showing a mentor.
 
-11. FINAL PATTERN SUMMARY
-Create a final dataframe like:
 
-Pattern | Observation | Why it matters
+==================================================
+14. FINAL PATTERN SUMMARY
+==================================================
+
+Create a dataframe:
+
+Pattern | Evidence | Knowledge Graph Interpretation
+
+Include approximately 5–7 observed patterns.
 
 Examples:
-- High-value transfers
-- Multiple destinations from one account
-- Multiple origins to one destination
-- Balance depletion
-- Fraud-connected accounts
 
-Do NOT rank the patterns.
+Popular product
+Frequent co-purchase
+Highly active customer
+Popular category
+High-view/low-purchase product
+Similar customers
+Product relationship
 
-12. FINAL CONCLUSION
-Add a concise Markdown section explaining:
+Do not rank the patterns.
 
-"What I learned"
 
-Include:
-- How structured transaction data can reveal behavioral patterns
-- How relationships between accounts can be represented as a graph
-- How NetworkX can be used to construct and explore a simple knowledge graph
-- Why graph relationships can provide additional context beyond individual transaction rows
-- How this prototype can later be extended to a larger fraud knowledge graph using a real dataset and Neo4j
+==================================================
+15. WHAT I LEARNED
+==================================================
 
-13. PROJECT OUTPUTS
-At the end, make sure the project contains:
+Create a Markdown section explaining:
 
-mini-fraud-knowledge-graph/
-│
-├── data/
-│   └── mini_transactions.csv
-│
-└── mini_fraud_knowledge_graph.ipynb
+- How patterns can be discovered from structured shopping data.
+- How customers, products and categories become graph entities.
+- How interactions become relationships.
+- How NetworkX can represent the knowledge graph.
+- How graph traversal reveals relationships that are less obvious in a flat table.
+- How simple graph relationships can support recommendation-style insights.
+- Why a graph database such as Neo4j could later be useful for scaling this concept.
 
-Do not create unnecessary files.
 
-IMPORTANT IMPLEMENTATION RULES:
-- Use clean, beginner-readable Python.
-- Add Markdown explanations before every major section.
-- Do not hide important logic inside complicated functions.
-- Avoid excessive abstraction.
-- Avoid unnecessary libraries.
-- Do not use external datasets.
-- Do not use Neo4j.
-- Do not use machine learning.
-- Do not make the dataset unrealistically large.
-- Make the synthetic dataset intentionally contain a few patterns so the analysis has meaningful results.
-- Ensure every cell executes successfully from top to bottom.
-- At the end, provide a short explanation of how I can explain this project to my mentor in 2–3 minutes.
+==================================================
+16. CONNECTION TO MY MAIN PROJECT
+==================================================
 
-Generate the complete notebook code and all required project structure in one go.
+Add a short Markdown section explaining:
+
+"This project is a small domain-independent prototype for understanding Knowledge Graph concepts."
+
+Explain that the same workflow can later be applied to a completely different domain:
+
+Synthetic Shopping Data
+→ Pattern Recognition
+→ Relationship Modeling
+→ NetworkX Knowledge Graph
+
+and later:
+
+Real Financial Data
+→ Fraud Pattern Recognition
+→ Account/Transaction Relationships
+→ Neo4j Knowledge Graph
+
+Do NOT implement the fraud project here.
+
+
+==================================================
+17. FINAL MENTOR EXPLANATION
+==================================================
+
+At the end provide a concise 2–3 minute explanation I can give to my mentor.
+
+It should explain:
+
+- Why I built this project
+- How I generated the data
+- What patterns I discovered
+- How I converted the relationships into a graph
+- What NetworkX helped me understand
+- How the simple recommendation example works
+- How this prepares me for a larger Knowledge Graph implementation
+
+FINAL REQUIREMENT:
+
+Generate the complete project in ONE GO.
+
+Do not stop after creating the dataset.
+Do not ask me what section to build next.
+Do not leave TODOs or placeholders.
+Provide all Python code and Markdown content required for the notebook.
+Make sure the notebook executes from top to bottom successfully.
