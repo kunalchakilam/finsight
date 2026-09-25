@@ -1,12 +1,13 @@
-Refactor the existing /is-echkc Experience Center page UI without changing its backend architecture.
+Update the existing /is-echkc Experience Center flow after clicking Participate.
 
-1. Keep the existing Experience Center API and quiz functionality.
-2. Add a dedicated top header with the ISQuest logo/branding on the left and Innovation Station logo on the right.
-3. Do not show the normal ISQuest Sidebar, Profile or portal navigation.
-4. Below the header, show a "Live Quizzes" section.
-5. Display the currently available EXPERIENCE_CENTER quizzes as clean quiz cards.
-6. Each card should show quiz name, description and useful quiz information.
-7. Add a prominent "Participate" button on every live quiz card.
-8. Do not add quiz selection beyond the existing live quiz cards.
-9. Keep the page clean, professional and suitable for an Experience Center display.
-10. Do not modify the existing quiz engine or backend APIs.
+1. Clicking Participate on a quiz card should open the registration screen for that quiz.
+2. Keep the dedicated Experience Center header with ISQuest left and Innovation Station right.
+3. Show the selected quiz name and description at the top.
+4. Show a centered registration card.
+5. Registration fields must be Name and 9-digit SSO.
+6. Add a prominent Register button.
+7. Keep "View Leaderboard" as a small secondary action if it already exists.
+8. Use the existing Experience Center registration API.
+9. After successful registration, navigate to the Instructions screen.
+10. Do not start the quiz immediately after registration.
+11. Do not modify normal PUBLIC/PRIVATE quiz flows.
