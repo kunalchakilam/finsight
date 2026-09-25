@@ -1,15 +1,12 @@
-Implement the Experience Center participant flow using the existing quiz/session engine.
+Add Experience Center as a new quiz visibility/access type.
 
-1. Use EXPERIENCE_CENTER as the existing Quiz visibility type.
-2. Add unauthenticated endpoints under /api/experience/.
-3. Add GET /api/experience/quizzes/active to return the currently ACTIVE Experience Center quiz.
-4. Add POST /api/experience/quizzes/{quizId}/register accepting name and 9-digit SSO.
-5. Do not require Okta, dev-login or Spring Security authentication for these participant endpoints.
-6. Validate the quiz is EXPERIENCE_CENTER and currently ACTIVE.
-7. Every registration creates a NEW independent participant attempt, even for the same SSO.
-8. Do not apply the normal one-active-session-per-user restriction.
-9. Reuse the existing Quiz, Question, QuizSession/Participant, scoring and result infrastructure.
-10. Generate and persist the participant question sequence once during registration.
-11. Registration must NOT start the first question yet.
-12. Return sessionId plus the quiz configuration needed for the instructions screen.
-13. Never expose correct answers, email, authentication data or internal security fields.
+1. Add EXPERIENCE_CENTER to the existing Quiz visibility enum/model.
+2. Keep PUBLIC and PRIVATE behavior unchanged.
+3. Persist EXPERIENCE_CENTER using the existing Quiz entity.
+4. POST /api/quizzes must accept EXPERIENCE_CENTER.
+5. EXPERIENCE_CENTER quizzes must remain visible to authorized admins in Quiz Management.
+6. Normal participant/public discovery APIs must exclude EXPERIENCE_CENTER.
+7. EXPERIENCE_CENTER participants must not require Okta or dev authentication.
+8. Preserve existing scheduling, question selection, scoring and presentation configuration.
+9. Do not create separate Quiz or Question entities.
+10. Do not implement participant access in this step.
