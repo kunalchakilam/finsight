@@ -1,12 +1,12 @@
-Add Experience Center visibility to the existing Create Quiz flow.
+Restrict EXPERIENCE_CENTER quizzes to the dedicated Experience Center access flow.
 
-1. Under Visibility, add "Innovation Station & Experience Center Quiz" alongside Public and Private.
-2. Store the value as EXPERIENCE_CENTER.
-3. Add a short description: "Accessible through the dedicated Experience Center."
-4. Allow it throughout the existing create-quiz flow.
-5. Show the selected visibility correctly in Review.
-6. Send visibility=EXPERIENCE_CENTER in POST /api/quizzes.
-7. Show "Innovation Station & Experience Center" on Quiz Management cards/details.
-8. Keep EXPERIENCE_CENTER quizzes visible to authorized admins.
-9. Do not show them in normal Join a Quiz/public participant lists.
-10. Keep Public and Private behavior unchanged.
+1. Audit existing quiz discovery/list APIs.
+2. Normal Join a Quiz APIs must exclude EXPERIENCE_CENTER.
+3. Normal Active, Upcoming and Completed participant lists must exclude EXPERIENCE_CENTER.
+4. Public quiz discovery must exclude EXPERIENCE_CENTER.
+5. Authenticated admins must still see their EXPERIENCE_CENTER quizzes in Quiz Management.
+6. Add a dedicated /api/experience/ namespace for participant access.
+7. Only /api/experience/... may expose EXPERIENCE_CENTER quizzes to unauthenticated participants.
+8. Reuse existing Quiz, Question and session services.
+9. Do not duplicate quiz retrieval logic.
+10. Do not change PUBLIC or PRIVATE behavior.
