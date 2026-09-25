@@ -1,12 +1,14 @@
-Restrict EXPERIENCE_CENTER quizzes to the dedicated Experience Center access flow.
+Implement the Experience Center participant registration flow.
 
-1. Audit existing quiz discovery/list APIs.
-2. Normal Join a Quiz APIs must exclude EXPERIENCE_CENTER.
-3. Normal Active, Upcoming and Completed participant lists must exclude EXPERIENCE_CENTER.
-4. Public quiz discovery must exclude EXPERIENCE_CENTER.
-5. Authenticated admins must still see their EXPERIENCE_CENTER quizzes in Quiz Management.
-6. Add a dedicated /api/experience/ namespace for participant access.
-7. Only /api/experience/... may expose EXPERIENCE_CENTER quizzes to unauthenticated participants.
-8. Reuse existing Quiz, Question and session services.
-9. Do not duplicate quiz retrieval logic.
-10. Do not change PUBLIC or PRIVATE behavior.
+1. Add GET /api/experience/quizzes/active to return the currently ACTIVE EXPERIENCE_CENTER quiz.
+2. Add POST /api/experience/quizzes/{quizId}/register accepting name and 9-digit SSO.
+3. These endpoints must not require Okta, dev-login or authenticated Spring Security.
+4. Validate the quiz exists, is EXPERIENCE_CENTER and is currently ACTIVE.
+5. Every registration creates a NEW independent quiz attempt.
+6. The same SSO may register multiple times for the same quiz.
+7. Do not apply the normal one-active-session-per-user restriction.
+8. Reuse the existing QuizSession/Participant infrastructure.
+9. Generate and persist the participant's question sequence once during registration.
+10. Registration must NOT start the first question.
+11. Return sessionId and the configuration needed for the instructions screen.
+12. Never return SSO, email, correct answers or authentication information.
