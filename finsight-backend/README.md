@@ -1,14 +1,14 @@
-Implement the Experience Center participant registration flow.
+Create the dedicated Experience Center entry flow at /is-echkc.
 
-1. Add GET /api/experience/quizzes/active to return the currently ACTIVE EXPERIENCE_CENTER quiz.
-2. Add POST /api/experience/quizzes/{quizId}/register accepting name and 9-digit SSO.
-3. These endpoints must not require Okta, dev-login or authenticated Spring Security.
-4. Validate the quiz exists, is EXPERIENCE_CENTER and is currently ACTIVE.
-5. Every registration creates a NEW independent quiz attempt.
-6. The same SSO may register multiple times for the same quiz.
-7. Do not apply the normal one-active-session-per-user restriction.
-8. Reuse the existing QuizSession/Participant infrastructure.
-9. Generate and persist the participant's question sequence once during registration.
-10. Registration must NOT start the first question.
-11. Return sessionId and the configuration needed for the instructions screen.
-12. Never return SSO, email, correct answers or authentication information.
+1. This route must be separate from the normal ISQuest portal.
+2. Do not render Header, Sidebar, Profile, Login or normal portal navigation.
+3. On entry, call GET /api/experience/quizzes/active.
+4. Show the active quiz name and description.
+5. Show a registration card with Name and 9-digit SSO fields.
+6. Add a small "View Leaderboard" button/icon beside the registration card.
+7. Register through POST /api/experience/quizzes/{quizId}/register.
+8. Store the returned sessionId and quiz configuration.
+9. Navigate to the Instructions screen after registration.
+10. Do not call normal authenticated quiz APIs.
+11. Allow the same SSO to register again as a new attempt.
+12. Keep this UI visually separate from the management portal.
