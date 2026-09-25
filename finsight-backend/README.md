@@ -1,12 +1,12 @@
-Validate Experience Center multi-attempt session behavior.
+Refactor the existing /is-echkc Experience Center page UI without changing its backend architecture.
 
-1. The same SSO can register for the same EXPERIENCE_CENTER quiz multiple times.
-2. Every registration must create a separate participant attempt/session.
-3. Never overwrite an earlier attempt.
-4. Each attempt must have its own question sequence, current question, score, timer and completion state.
-5. Closing a browser must not complete the attempt.
-6. Reopening an active attempt must resume its existing session where session-resume is supported.
-7. Completing one attempt must not affect another attempt.
-8. Leaderboard must consider completed attempts according to the existing highest-score-per-SSO rule.
-9. Do not change normal PUBLIC/PRIVATE session restrictions.
-10. Do not create duplicate session entities or quiz engines.
+1. Keep the existing Experience Center API and quiz functionality.
+2. Add a dedicated top header with the ISQuest logo/branding on the left and Innovation Station logo on the right.
+3. Do not show the normal ISQuest Sidebar, Profile or portal navigation.
+4. Below the header, show a "Live Quizzes" section.
+5. Display the currently available EXPERIENCE_CENTER quizzes as clean quiz cards.
+6. Each card should show quiz name, description and useful quiz information.
+7. Add a prominent "Participate" button on every live quiz card.
+8. Do not add quiz selection beyond the existing live quiz cards.
+9. Keep the page clean, professional and suitable for an Experience Center display.
+10. Do not modify the existing quiz engine or backend APIs.
