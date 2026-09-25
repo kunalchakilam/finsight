@@ -1,12 +1,13 @@
-Connect the Experience Center flow to the existing immersive quiz UI.
+Implement the Experience Center leaderboard.
 
-1. Pass the Experience Center sessionId into the existing quiz engine.
-2. Do not create duplicate question, timer, scoring or result components.
-3. Use the existing Standard and Spin Wheel presentation modes.
-4. Use the existing 20-second question timer.
-5. Use the existing answer/result/Next progression.
-6. Use the existing final result screen.
-7. Preserve the Experience Center session across browser navigation/reload where existing session-resume logic supports it.
-8. Never call normal authenticated participant discovery APIs.
-9. Keep the immersive quiz UI unchanged unless required for session routing.
-10. Ensure completing an Experience Center attempt returns to the Experience Center result/leaderboard flow.
+1. Add GET /api/experience/quizzes/{quizId}/leaderboard.
+2. Include only COMPLETED attempts for that EXPERIENCE_CENTER quiz.
+3. Group attempts by SSO.
+4. For each SSO, keep only their highest completed score.
+5. If scores are equal, use cumulative active answering time as the tie-breaker.
+6. Return rank, participant name and score only.
+7. Return the top 3 for the podium and top 20 ranked participants.
+8. The same SSO must never occupy multiple leaderboard positions.
+9. Do not expose SSO, email or authentication information.
+10. Reuse existing participant/result data; do not create a separate leaderboard entity.
+11. Keep normal quiz leaderboards unchanged.
