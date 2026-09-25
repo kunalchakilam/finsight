@@ -1,14 +1,13 @@
-Create the dedicated Experience Center entry flow at /is-echkc.
+Implement the Experience Center registration-to-start flow.
 
-1. This route must be separate from the normal ISQuest portal.
-2. Do not render Header, Sidebar, Profile, Login or normal portal navigation.
-3. On entry, call GET /api/experience/quizzes/active.
-4. Show the active quiz name and description.
-5. Show a registration card with Name and 9-digit SSO fields.
-6. Add a small "View Leaderboard" button/icon beside the registration card.
-7. Register through POST /api/experience/quizzes/{quizId}/register.
-8. Store the returned sessionId and quiz configuration.
-9. Navigate to the Instructions screen after registration.
-10. Do not call normal authenticated quiz APIs.
-11. Allow the same SSO to register again as a new attempt.
-12. Keep this UI visually separate from the management portal.
+1. Registration creates the session but does not start the first question.
+2. Return totalQuestions, secondsPerQuestion, scoring information, presentationMode and questionSelectionMode.
+3. Do not expose questions, options or correct answers in registration response.
+4. Add POST /api/experience/sessions/{sessionId}/start.
+5. Validate the session belongs to an EXPERIENCE_CENTER quiz.
+6. Start the existing participant session using its already-persisted question sequence.
+7. Never generate a second question sequence when Start Quiz is clicked.
+8. Return the session state required by the existing immersive quiz UI.
+9. Reuse existing Standard/Spin Wheel presentation, timer, scoring and completion logic.
+10. Multiple attempts from the same SSO remain independent.
+11. Do not create duplicate Quiz, Question or scoring services.
