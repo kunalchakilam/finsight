@@ -1,20 +1,16 @@
-Redesign the existing immersive quiz UI globally for ALL quiz types without changing quiz functionality.
+Refactor the global immersive quiz completion flow so results and leaderboard are separate screens.
 
-1. Apply the same Experience Center visual theme to the entire immersive quiz: charcoal-gray + subtle #FFB700 amber gradient background.
-2. Replace the current header/card-style header completely.
-3. New header: Synchrony logo + "ISQuest" on the left, Innovation Station logo on the right.
-4. Keep the header compact with comfortable horizontal padding and a thin charcoal-to-amber-to-charcoal gradient separator underneath.
-5. Remove username, quiz name and quiz status from the header; do not show them there anymore.
-6. Keep quiz name/progress information in the existing appropriate quiz-content area if already present.
-7. Make ALL answer options charcoal-gray, close to the background, with a slightly lighter border and subtle hover/active effect.
-8. Keep the existing four option icons and display them consistently with the gray option design; do not remove or replace the icons.
-9. Do not use four different pastel option colors anymore.
-10. Before answering, keep all options neutral gray; after answering, preserve the existing green correct and red incorrect feedback/highlighting behavior.
-11. Keep the existing score display, 20-second timer, question progress and answer/Next behavior unchanged.
-12. Keep the existing CORRECT / INCORRECT / UNANSWERED + score feedback screens, but apply the new global theme.
-13. Keep quiz loading in a new browser tab for all quiz types.
-14. For Spin Wheel quizzes, preserve the existing half-screen layout: wheel on the left and question/options on the right.
-15. Apply the same new charcoal-gray option styling and option icons to Spin Wheel questions.
-16. Do not change wheel behavior, 3-second animation, backend-selected question, scoring, timer or progression.
-17. Do not change session resume, randomization, answer validation or any backend functionality.
-18. Apply this redesign globally to Public, Private and Experience Center quizzes.
+1. After quiz completion, show only the participant's personal results first.
+2. Keep the existing total score, Correct, Incorrect, Unanswered and Total Time Taken statistics.
+3. Do NOT show the leaderboard directly on the initial results screen.
+4. Add a prominent "View Leaderboard" button below the personal statistics.
+5. Clicking View Leaderboard opens a dedicated leaderboard screen using the same charcoal/amber immersive theme.
+6. Show the top 3 participants first in a podium layout with Gold, Silver and Bronze medal indicators beside their names and scores.
+7. Below the podium, show the ranked Top 20 participants with rank, name and score.
+8. If the current participant is within the Top 20, highlight their row.
+9. If the current participant is outside the Top 20, show their rank, name and score in a separate "Your Rank" section below the Top 20.
+10. Do not duplicate the current participant inside the Top 20 and Your Rank section.
+11. Keep the leaderboard styling consistent with the new global quiz theme.
+12. Add a clear way to return from the leaderboard to the personal results screen.
+13. Do not change score calculation, ranking, tie-breaking or backend session logic.
+14. Do not change the Experience Center-specific leaderboard behavior.
