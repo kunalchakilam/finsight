@@ -1,13 +1,12 @@
-Enforce the new ADMIN permissions across the existing quiz and question APIs.
+Update the frontend to match the new role permissions.
 
-1. SUPER_ADMIN can create PUBLIC, PRIVATE and EXPERIENCE_CENTER quizzes.
-2. ADMIN can create PRIVATE quizzes only.
-3. Reject ADMIN requests attempting PUBLIC or EXPERIENCE_CENTER quiz creation with 403.
-4. Only SUPER_ADMIN can upload/import/bulk-create questions.
-5. ADMIN must be rejected from Excel upload/import and bulk question creation APIs.
-6. ADMIN can read existing topics/questions and select existing Question Bank questions when creating PRIVATE quizzes.
-7. Derive all permissions from the authenticated backend user's role; never trust frontend role values.
-8. Keep SUPER_ADMIN Question Bank functionality unchanged.
-9. Keep existing quiz creation, scheduling, question selection, scoring and session behavior unchanged.
-10. Keep USER permissions unchanged.
-11. Audit all relevant endpoints for any alternate route that could bypass these restrictions.
+1. SUPER_ADMIN Create Quiz continues showing Public, Private and Experience Center visibility options.
+2. ADMIN Create Quiz must show only Private visibility; hide Public and Experience Center completely.
+3. ADMIN can still configure private quizzes and select questions from the existing Question Bank.
+4. Hide Upload Questions/Excel Import/bulk question creation controls from ADMIN.
+5. Keep existing topic/question browsing and selection available to ADMIN.
+6. Hide Admin Management navigation and routes from ADMIN.
+7. SUPER_ADMIN retains all existing Admin Management and Question Bank controls.
+8. Do not rely on frontend restrictions for security; backend authorization remains authoritative.
+9. Do not change USER UI or unrelated quiz functionality.
+10. Preserve all existing ISQuest styling, layouts and API integrations.
