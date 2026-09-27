@@ -1,12 +1,13 @@
-Build the complete Admin Management UI for SUPER_ADMIN.
+Enforce the new ADMIN permissions across the existing quiz and question APIs.
 
-1. Show Admin Management navigation/page only for SUPER_ADMIN; ADMIN must not see it.
-2. Add a search bar and an amber "Add Admin" button.
-3. Add Admin opens an SSO search flow; after entering a 9-digit SSO, automatically display the existing user's name, SSO, email and current role.
-4. Allow assigning ADMIN or SUPER_ADMIN and save through the existing admin API.
-5. After saving, return to the Admin Management list and refresh the data.
-6. Display ADMIN and SUPER_ADMIN users as cards showing name, SSO, role and last updated date.
-7. Clicking a card opens a details view showing name, SSO, email, role and last updated date.
-8. Add a read-only Change History section using the admin history API.
-9. Show previous role → new role, changed by name and date/time in a clean timeline.
-10. Use the existing ISQuest management styling; do not create a separate layout or modify unrelated pages.
+1. SUPER_ADMIN can create PUBLIC, PRIVATE and EXPERIENCE_CENTER quizzes.
+2. ADMIN can create PRIVATE quizzes only.
+3. Reject ADMIN requests attempting PUBLIC or EXPERIENCE_CENTER quiz creation with 403.
+4. Only SUPER_ADMIN can upload/import/bulk-create questions.
+5. ADMIN must be rejected from Excel upload/import and bulk question creation APIs.
+6. ADMIN can read existing topics/questions and select existing Question Bank questions when creating PRIVATE quizzes.
+7. Derive all permissions from the authenticated backend user's role; never trust frontend role values.
+8. Keep SUPER_ADMIN Question Bank functionality unchanged.
+9. Keep existing quiz creation, scheduling, question selection, scoring and session behavior unchanged.
+10. Keep USER permissions unchanged.
+11. Audit all relevant endpoints for any alternate route that could bypass these restrictions.
